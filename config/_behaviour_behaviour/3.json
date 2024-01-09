@@ -1,0 +1,47 @@
+{
+	"id":3,
+	"name":"测试SequenceAndSelector",
+	"objType":6,
+	"params":[
+		
+	],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"precond":{
+			"$type":"behaviour.Condition.NULL"
+		},
+		"nodes":[
+			{
+				"precond":{
+					"$type":"behaviour.Condition.NULL"
+				},
+				"nodes":[
+					{
+						"timeMs":{
+							"value":100,
+							"$type":"behaviour.ExpNumber.ConstInteger"
+						},
+						"$type":"behaviour.Node.WaitTimeMs"
+					},
+					{
+						"cond":{
+							"$type":"behaviour.Condition.Failure"
+						},
+						"$type":"behaviour.Node.NodeCondition"
+					}
+				],
+				"$type":"behaviour.Node.Selector"
+			},
+			{
+				"msg":"hello world",
+				"$type":"behaviour.Node.ActDebugLog"
+			}
+		],
+		"$type":"behaviour.Node.Sequence"
+	},
+	"$type":"behaviour.behaviour"
+}

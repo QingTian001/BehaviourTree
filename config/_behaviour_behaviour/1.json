@@ -1,0 +1,32 @@
+{
+	"id":1,
+	"name":"测试",
+	"objType":6,
+	"params":[
+		
+	],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"precond":{
+			"$type":"behaviour.Condition.NULL"
+		},
+		"nodes":[
+			{
+				"cond":{
+					"$type":"behaviour.Condition.Success"
+				},
+				"$type":"behaviour.Node.NodeCondition"
+			},
+			{
+				"msg":"hello world",
+				"$type":"behaviour.Node.ActDebugLog"
+			}
+		],
+		"$type":"behaviour.Node.Sequence"
+	},
+	"$type":"behaviour.behaviour"
+}

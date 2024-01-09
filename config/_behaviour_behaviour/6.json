@@ -1,0 +1,48 @@
+{
+	"id":6,
+	"name":"测试监听中断",
+	"objType":6,
+	"params":[
+		
+	],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"validOnFinish":true,
+		"node":{
+			"precond":{
+				"left":{
+					"bbKey":"n",
+					"$type":"behaviour.ExpNumber.getBBNumber"
+				},
+				"right":{
+					"value":0,
+					"$type":"behaviour.ExpNumber.ConstInteger"
+				},
+				"comarator":1,
+				"$type":"behaviour.Condition.Compare"
+			},
+			"nodes":[
+				{
+					"msg":"hello world",
+					"$type":"behaviour.Node.ActDebugLog"
+				},
+				{
+					"bbKey":"n",
+					"value":{
+						"value":1,
+						"$type":"behaviour.ExpNumber.ConstInteger"
+					},
+					"$type":"behaviour.Node.ActSetBBNumber"
+				}
+			],
+			"$type":"behaviour.Node.Sequence"
+		},
+		"loopNum":2,
+		"$type":"behaviour.Node.Loop"
+	},
+	"$type":"behaviour.behaviour"
+}

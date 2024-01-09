@@ -1,0 +1,58 @@
+{
+	"id":4,
+	"name":"测试Parral",
+	"objType":6,
+	"params":[
+		
+	],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"oneSuccAllSucc":true,
+		"oneFailAllFail":false,
+		"nodes":[
+			{
+				"precond":{
+					"$type":"behaviour.Condition.Failure"
+				},
+				"nodes":[
+					{
+						"msg":"impossible to show",
+						"$type":"behaviour.Node.ActDebugLog"
+					}
+				],
+				"$type":"behaviour.Node.Selector"
+			},
+			{
+				"precond":{
+					"$type":"behaviour.Condition.NULL"
+				},
+				"nodes":[
+					{
+						"timeMs":{
+							"value":100,
+							"$type":"behaviour.ExpNumber.ConstInteger"
+						},
+						"$type":"behaviour.Node.WaitTimeMs"
+					},
+					{
+						"msg":"Sequence waittimems finish",
+						"$type":"behaviour.Node.ActDebugLog"
+					}
+				],
+				"$type":"behaviour.Node.Sequence"
+			},
+			{
+				"cond":{
+					"$type":"behaviour.Condition.Failure"
+				},
+				"$type":"behaviour.Node.NodeCondition"
+			}
+		],
+		"$type":"behaviour.Node.Parallel"
+	},
+	"$type":"behaviour.behaviour"
+}

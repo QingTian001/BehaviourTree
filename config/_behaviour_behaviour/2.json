@@ -1,0 +1,42 @@
+{
+	"id":2,
+	"name":"测试Selector",
+	"objType":6,
+	"params":[
+		
+	],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"precond":{
+			"$type":"behaviour.Condition.NULL"
+		},
+		"nodes":[
+			{
+				"cond":{
+					"$type":"behaviour.Condition.Failure"
+				},
+				"$type":"behaviour.Node.NodeCondition"
+			},
+			{
+				"timeMs":{
+					"value":300,
+					"$type":"behaviour.ExpNumber.ConstInteger"
+				},
+				"$type":"behaviour.Node.WaitTimeMs"
+			},
+			
+			{
+				"cond":{
+					"$type":"behaviour.Condition.Failure"
+				},
+				"$type":"behaviour.Node.NodeCondition"
+			}
+		],
+		"$type":"behaviour.Node.Selector"
+	},
+	"$type":"behaviour.behaviour"
+}
