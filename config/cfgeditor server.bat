@@ -1,4 +1,5 @@
+set JAVA_PATH=C:\Program Files\Java\jdk-21
 
-call "../util/jdk-21.0.1/bin/java.exe"  -jar ..\util\cfggen.jar -headrow 3 -datadir . -nowarn -gen server
+call "%JAVA_PATH%/bin/java.exe"  -jar ..\tools\cfggen.jar -headrow 3 -datadir . -nowarn -gen server
 
 pause
