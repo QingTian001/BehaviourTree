@@ -42,4 +42,10 @@ public abstract class Composite<T extends config.behaviour.Node> extends Node<T>
             }
         }
     }
+
+    @Override
+    public void genNodeId() {
+        super.genNodeId();
+        nodeList.forEach(Node::genNodeId);
+    }
 }

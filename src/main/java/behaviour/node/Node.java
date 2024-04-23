@@ -15,6 +15,7 @@ public abstract class Node<T extends config.behaviour.Node> {
     private final T nodeCfg;
     private final BehaviourTree behaviourTree;
     private Statusenum status = Statusenum.BTINVALID;
+    private final NodeId nodeId = new NodeId(this);
 
     @SuppressWarnings("unchecked")
     public Node(BehaviourTree behaviourTree, config.behaviour.Node nodeCfg) {
@@ -40,8 +41,16 @@ public abstract class Node<T extends config.behaviour.Node> {
         return nodeCfg;
     }
 
+    public final NodeId getNodeId() {
+        return nodeId;
+    }
+
     public BehaviourTree getBehaviourTree() {
         return behaviourTree;
+    }
+
+    public void genNodeId() {
+        nodeId.genNodeId();
     }
 
     public BehaviourStack getBehaviourStack() {
@@ -114,6 +123,10 @@ public abstract class Node<T extends config.behaviour.Node> {
     }
     public void reset(boolean recursive) {
         this.status = Statusenum.BTINVALID;
+    }
+
+    public String getName() {
+        return this.getClass().getSimpleName();
     }
 
 }

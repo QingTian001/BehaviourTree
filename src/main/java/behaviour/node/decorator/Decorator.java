@@ -47,4 +47,9 @@ public abstract class Decorator<T extends config.behaviour.Node> extends Node<T>
         node.reset(recursive);
     }
 
+    @Override
+    public void genNodeId() {
+        super.genNodeId();
+        node.genNodeId();
+    }
 }
