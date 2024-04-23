@@ -5,6 +5,7 @@ import behaviour.BehaviourFactory;
 import behaviour.BehaviourStack;
 import behaviour.BehaviourTree;
 import behaviour.node.Node;
+import util.StringUtil;
 
 
 public abstract class Decorator<T extends config.behaviour.Node> extends Node<T> {
@@ -51,5 +52,15 @@ public abstract class Decorator<T extends config.behaviour.Node> extends Node<T>
     public void genNodeId() {
         super.genNodeId();
         node.genNodeId();
+    }
+
+    @Override
+    public void dump(int tableNum, StringBuilder dumpTo) {
+        super.dump(tableNum, dumpTo);
+        String tableStr = StringUtil.getTableString(tableNum);
+        dumpTo.append(tableStr).append("{\n");
+        dumpTo.append(tableStr).append("Decorator:\n");
+        node.dump(tableNum + 1, dumpTo);
+        dumpTo.append(tableStr).append("}\n");
     }
 }

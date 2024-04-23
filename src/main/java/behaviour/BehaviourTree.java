@@ -4,12 +4,14 @@ import config.behaviour.Behaviour;
 import config.behaviour.Statusenum;
 //import wm.Map.entity.behaviour.GEntity;
 import behaviour.node.Node;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public final class BehaviourTree {
-
+    public static final Logger logger = LogManager.getLogger(BehaviourTree.class);
     private static AtomicLong idGen = new AtomicLong();
     private final long id;
     private final GEntity entity;
@@ -65,8 +67,13 @@ public final class BehaviourTree {
         }
     }
 
+    public void finish() {
+        logger.debug("finish behaviourTree. status:{}, entityInstId:{}, btCfgId:{}. ", status, entity, this.getBehaviourCfg().getId());
+        reset(false);
+    }
+
     public void reset(boolean recursive) {
-        blackBoard.reset();
+        //blackBoard.reset(); // blackboard是不是不应被清理, 先不清理
         getBehaviourStack().reset();
         status = Statusenum.BTINVALID;
 
@@ -76,24 +83,27 @@ public final class BehaviourTree {
     }
 
     public Statusenum update() {
-
         updateNode();
-
         if (autoReset && BehaviourHelper.isNodeFinished(status)) {
-            reset(false);
+            finish();
         }
         return status;
     }
 
-    private Statusenum updateNode() {
-
+    private void updateNode() {
         if (status == Statusenum.BTRUNNING) {
             status = getBehaviourStack().updateRunningNode(null);
         } else {
             status = rootNode.update(getBehaviourStack());
         }
+    }
 
-        return status;
+    public String dump() {
+        StringBuilder sb = new StringBuilder();
+        rootNode.dump(0, sb);
+        String dump = sb.toString();
+        logger.info("dump behaviourTree. entityInstId:{}, btCfgId:{}. \n{}", entity, this.getBehaviourCfg().getId(), dump);
+        return dump;
     }
 }
 

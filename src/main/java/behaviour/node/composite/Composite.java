@@ -3,6 +3,7 @@ package behaviour.node.composite;
 import behaviour.BehaviourFactory;
 import behaviour.BehaviourTree;
 import behaviour.node.Node;
+import util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +48,18 @@ public abstract class Composite<T extends config.behaviour.Node> extends Node<T>
     public void genNodeId() {
         super.genNodeId();
         nodeList.forEach(Node::genNodeId);
+    }
+
+    @Override
+    public void dump(int tableNum, StringBuilder dumpTo) {
+        super.dump(tableNum, dumpTo);
+        int subTableNum = tableNum + 1;
+        String tableStr = StringUtil.getTableString(tableNum);
+        dumpTo.append(tableStr).append("{\n");
+        dumpTo.append(tableStr).append("nodes:\n");
+        for (var node : nodeList) {
+            node.dump(subTableNum, dumpTo);
+        }
+        dumpTo.append(tableStr).append("}\n");
     }
 }

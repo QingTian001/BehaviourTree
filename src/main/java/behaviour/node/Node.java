@@ -1,15 +1,17 @@
 package behaviour.node;
 
+import behaviour.GEntity;
 import config.behaviour.Statusenum;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import behaviour.BehaviourHelper;
 import behaviour.BehaviourStack;
 import behaviour.BehaviourTree;
+import util.StringUtil;
 
 
 public abstract class Node<T extends config.behaviour.Node> {
-
     public static final Logger logger = LogManager.getLogger(Node.class);
     private Node<? extends config.behaviour.Node> parent;
     private final T nodeCfg;
@@ -45,6 +47,10 @@ public abstract class Node<T extends config.behaviour.Node> {
         return nodeId;
     }
 
+    public final GEntity getSelf() {
+        return getBehaviourTree().getEntity();
+    }
+
     public BehaviourTree getBehaviourTree() {
         return behaviourTree;
     }
@@ -53,13 +59,12 @@ public abstract class Node<T extends config.behaviour.Node> {
         nodeId.genNodeId();
     }
 
-    public BehaviourStack getBehaviourStack() {
-        return null; // TODO
+    public final String getFullId() {
+        return getNodeId().getFullNodeIdName();
     }
 
-    public Statusenum update(BehaviourStack stack) {
-
-        logger.info("update node. node:{}, parent:{}, NodeCfg:{}", this, parent, nodeCfg);
+    public final Statusenum update(BehaviourStack stack) {
+        log(Level.TRACE, StringUtil.format("update node"));
         if (BehaviourHelper.isNodeFinished(status)) {
             throw new RuntimeException("error status:" + status);
         }
@@ -77,19 +82,13 @@ public abstract class Node<T extends config.behaviour.Node> {
         }
         Statusenum tmpStatus = status;
         if (BehaviourHelper.isNodeFinished(status)) {
-            reset(false);
-            Node<? extends config.behaviour.Node> popNode = stack.popRunningNode();
-            if (popNode != this) {
-                throw new RuntimeException("node not equal");
-            }
+            finish(stack);
         }
-
         return tmpStatus;
     }
 
-    public Statusenum update(BehaviourStack stack, Statusenum childStatus) {
-
-        logger.info("update node by Child. node:{}, parent:{}, NodeCfg:{}", this, parent, nodeCfg);
+    public final Statusenum update(BehaviourStack stack, Statusenum childStatus) {
+        log(Level.TRACE, StringUtil.format("update by child status {}.", childStatus));
         if (!BehaviourHelper.isNodeFinished(childStatus)) {
             throw new RuntimeException("error childStatus:" + childStatus);
         }
@@ -99,16 +98,10 @@ public abstract class Node<T extends config.behaviour.Node> {
         }
 
         status = internalUpdate(stack, childStatus);
-
         Statusenum tmpStatus = status;
         if (BehaviourHelper.isNodeFinished(status)) {
-            reset(false);
-            Node<? extends config.behaviour.Node> popNode = stack.popRunningNode();
-            if (popNode != this) {
-                throw new RuntimeException("node not equal");
-            }
+            finish(stack);
         }
-
         return tmpStatus;
     }
 
@@ -116,6 +109,15 @@ public abstract class Node<T extends config.behaviour.Node> {
 
     protected Statusenum internalUpdate(BehaviourStack stack, Statusenum childStatus) {
         return internalUpdate(stack);
+    }
+
+    private void finish(BehaviourStack stack) {
+        log(Level.TRACE, StringUtil.format("finish status {}.", status));
+        reset(false);
+        Node<? extends config.behaviour.Node> popNode = stack.popRunningNode();
+        if (popNode != this) {
+            throw new RuntimeException("node not equal");
+        }
     }
 
     protected boolean enter() {
@@ -127,6 +129,16 @@ public abstract class Node<T extends config.behaviour.Node> {
 
     public String getName() {
         return this.getClass().getSimpleName();
+    }
+
+    public void log(Level level, String msg) {
+        logger.log(level, msg + " node:{}, entity:{}, behaviour:{}",
+                this.getFullId(), this.getSelf(), this.getBehaviourTree().getBehaviourCfg().getId());
+    }
+
+    public void dump(int tableNum, StringBuilder dumpTo) {
+        String tableStr = StringUtil.getTableString(tableNum);
+        dumpTo.append(StringUtil.format("{}{}{}\n", tableStr, this.getNodeId().getNodeIdName(), status == Statusenum.BTRUNNING? "(Running)" : ""));
     }
 
 }
