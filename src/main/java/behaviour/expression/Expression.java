@@ -1,70 +1,72 @@
 package behaviour.expression;
 
-
-import behaviour.BehaviourTree;
 import behaviour.GEntity;
-import behaviour.condition.Condition;
-import event.GEntityEventManager;
-import event.IMapObjectEventListener;
 import event.MapObjectEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import behaviour.BehaviourListenerManager;
+import behaviour.BehaviourTree;
+import behaviour.condition.Condition;
 
 
-import java.util.HashMap;
-import java.util.Map;
 
-public abstract class Expression<T> {
-
+/**
+ * Created by zyao on 2023/12/20 17:52
+ */
+public abstract class Expression<T, V> {
+    private static final Logger logger = LogManager.getLogger(Expression.class);
     private final T exprCfg;
-
     // 由Condition使用的时候会设置Condition
     private final Condition<? extends config.behaviour.Condition> condition;
+    private final BehaviourListenerManager listenerManager;
+    public final BehaviourTree behaviourTree;
 
-    private final Map<GEntity, Map<Class<? extends MapObjectEvent>, IMapObjectEventListener<? extends MapObjectEvent>>> entity2ListenerMap = new HashMap<>();
+    public Expression(BehaviourTree behaviourTree, T exprCfg, Condition<? extends config.behaviour.Condition> condition) {
+        this.exprCfg = exprCfg;
+        this.condition = condition;
+        this.behaviourTree = behaviourTree;
+        this.listenerManager = BehaviourListenerManager.createBehaviourListenerManager(condition);
+    }
+
+    public final V calculateExpression() {
+        V value = internalCalculateExpression();
+        logger.debug("calculateExpression. class:{}, ret = {}", this.getClass().getSimpleName(), value);
+        return value;
+    }
+
+    public final V calculateExpressionAndListenEvent() {
+        V value = internalCalculateExpressionAndListenEvent();
+        logger.debug("calculateExpressionAndListenEvent. class:{}, ret = {}", this.getClass().getSimpleName(), value);
+        return value;
+    }
+
+    protected abstract V internalCalculateExpression();
+
+    protected abstract V internalCalculateExpressionAndListenEvent();
+
+    public BehaviourTree getBehaviourTree() {
+        return behaviourTree;
+    }
 
     public final T getExprCfg() {
         return exprCfg;
     }
 
-    public final BehaviourTree behaviourTree;
-
     public final Condition<? extends config.behaviour.Condition> getCondition() {
         return condition;
     }
-    public Expression(BehaviourTree behaviourTree, T exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        this.exprCfg = exprCfg;
-        this.condition = condition;
-        this.behaviourTree = behaviourTree;
-    }
-
-    public BehaviourTree getBehaviourTree() {
-        return behaviourTree;
-    }
-    private <Event extends MapObjectEvent> void registerMapObjectEvent(GEntity entity, Class<Event> eventClazz) {
-        if (condition == null) {
+    protected final <Event extends MapObjectEvent> void registerMapObjectEvent(GEntity entity, Class<Event> eventClazz) {
+        if (listenerManager == null) {
             throw new RuntimeException("condtion must be not null");
         }
-
-        var listener = new IMapObjectEventListener<Event>() {
-            @Override
-            public void onTriggerEvent(Event event) {
-                condition.setDirty();
-            }
-        };
-        GEntityEventManager.getInstance().registerListener(entity, eventClazz, listener);
-
-        var listenerSet = entity2ListenerMap.computeIfAbsent(entity, e -> new HashMap<>());
-        listenerSet.put(eventClazz, listener);
-
+        logger.info("registerMapObjectEvent. class:{}, entity:{}, eventClazz:{}", this.getClass().getSimpleName(), entity, eventClazz);
+        listenerManager.registerMapObjectEvent(entity, eventClazz);
     }
 
     @SuppressWarnings("unchecked")
     public void reset() {
-        // 清理事件
-        entity2ListenerMap.forEach((entity, iMapObjectEventListeners) -> {
-            for (var entry : iMapObjectEventListeners.entrySet()) {
-                GEntityEventManager.getInstance().unregisterListener(entity, (Class<MapObjectEvent>)entry.getKey(), (IMapObjectEventListener<MapObjectEvent>)entry.getValue());
-            }
-        });
+        listenerManager.onReset();
     }
 
     public void loadFromCfg() {

@@ -25,7 +25,7 @@ public class ActSetBBString extends Action<config.behaviour.node.ActSetBBStr> {
 
     @Override
     protected Statusenum internalUpdate(BehaviourStack stack) {
-        String value = expressionStr.calculateExpressionString();
+        String value = expressionStr.calculateExpression();
         getBehaviourTree().getBlackBoard().putValue(getNodeCfg().getBbKey(), value);
         return Statusenum.BTSUCCESS;
     }

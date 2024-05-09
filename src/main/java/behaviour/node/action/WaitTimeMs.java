@@ -36,7 +36,7 @@ public class WaitTimeMs extends Action<config.behaviour.node.WaitTimeMs> {
     protected boolean enter() {
         //startTimeMs = getBehaviourTree().getEntity().getMap().getNowMills();
         startTimeMs = System.currentTimeMillis();
-        timeMs = timeMsExpr.calculateExpressionNumber();
+        timeMs = timeMsExpr.calculateExpression();
         return true;
     }
 

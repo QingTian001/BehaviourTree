@@ -1,13 +1,15 @@
-package behaviour.node;
+package behaviour.node.action;
 
+import behaviour.node.Node;
 import config.behaviour.Statusenum;
 import behaviour.BehaviourFactory;
 import behaviour.BehaviourStack;
 import behaviour.BehaviourTree;
 import behaviour.condition.Condition;
+import config.behaviour.node.NodeCondition;
 
 
-public class ConditionNode extends Node<config.behaviour.node.NodeCondition>{
+public class ConditionNode extends Node<NodeCondition> {
 
     private Condition<? extends config.behaviour.Condition> cond = null;
     public ConditionNode(BehaviourTree behaviourTree, config.behaviour.Node nodeCfg) {

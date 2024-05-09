@@ -47,13 +47,13 @@ public class Timed extends Decorator<config.behaviour.node.Timed>{
     protected boolean enter() {
         //startTimeMs = getBehaviourTree().getEntity().getMap().getNowMills();
         startTimeMs = System.currentTimeMillis();
-        timeMs = timeMsExpr.calculateExpressionNumber();
+        timeMs = timeMsExpr.calculateExpression();
         return true;
     }
 
     @Override
     public void reset(boolean recursive) {
-        super.reset(recursive);
+        super.reset(true);
         startTimeMs = 0;
         timeMs = 0;
     }

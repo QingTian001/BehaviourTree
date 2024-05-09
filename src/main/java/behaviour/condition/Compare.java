@@ -17,16 +17,16 @@ public class Compare extends Condition<config.behaviour.condition.Compare>{
 
     @Override
     public boolean calculateConditionResult() {
-        double leftV = leftExpr.calculateExpressionNumber();
-        double rightV = rightExpr.calculateExpressionNumber();
+        double leftV = leftExpr.calculateExpression();
+        double rightV = rightExpr.calculateExpression();
         return compare(leftV, rightV);
     }
 
     @Override
     public boolean calculateConditionResultAndListenEvent() {
 
-        double leftV = leftExpr.calculateExpressionNumberAndListenEvent();
-        double rightV = rightExpr.calculateExpressionNumberAndListenEvent();
+        double leftV = leftExpr.calculateExpressionAndListenEvent();
+        double rightV = rightExpr.calculateExpressionAndListenEvent();
         return compare(leftV, rightV);
     }
 

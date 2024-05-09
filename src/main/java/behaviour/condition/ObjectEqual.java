@@ -8,8 +8,8 @@ import behaviour.expression.ExpressionObject;
 
 public class ObjectEqual extends Condition<ObjEqual> {
 
-    private ExpressionObject<?, ? extends ExpObj> leftObjExpr = null;
-    private ExpressionObject<?, ? extends ExpObj> rightObjExpr = null;
+    private ExpressionObject<? extends ExpObj, Object> leftObjExpr = null;
+    private ExpressionObject<? extends ExpObj, Object> rightObjExpr = null;
 
     public ObjectEqual(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parent) {
         super(behaviourTree, condCfg, parent);
@@ -17,15 +17,15 @@ public class ObjectEqual extends Condition<ObjEqual> {
 
     @Override
     public boolean calculateConditionResult() {
-        Object left = leftObjExpr.calculateExpressionObject();
-        Object right = rightObjExpr.calculateExpressionObject();
+        Object left = leftObjExpr.calculateExpression();
+        Object right = rightObjExpr.calculateExpression();
         return left == right;
     }
 
     @Override
     public boolean calculateConditionResultAndListenEvent() {
-        Object left = leftObjExpr.calculateExpressionObjectAndListenEvent();
-        Object right = rightObjExpr.calculateExpressionObjectAndListenEvent();
+        Object left = leftObjExpr.calculateExpressionAndListenEvent();
+        Object right = rightObjExpr.calculateExpressionAndListenEvent();
         return left == right;
     }
 

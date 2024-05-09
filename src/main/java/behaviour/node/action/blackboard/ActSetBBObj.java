@@ -13,7 +13,7 @@ import behaviour.node.action.Action;
 public class ActSetBBObj extends Action<config.behaviour.node.ActSetBBObj> {
     public static final Logger logger = LogManager.getLogger(ActSetBBObj.class);
 
-    private ExpressionObject<Object, ? extends ExpObj> expressionObject = null;
+    private ExpressionObject<? extends ExpObj, Object> expressionObject = null;
     public ActSetBBObj(BehaviourTree behaviourTree, config.behaviour.Node nodeCfg) {
         super(behaviourTree, nodeCfg);
     }
@@ -25,7 +25,7 @@ public class ActSetBBObj extends Action<config.behaviour.node.ActSetBBObj> {
 
     @Override
     protected Statusenum internalUpdate(BehaviourStack stack) {
-        Object value = expressionObject.calculateExpressionObject();
+        Object value = expressionObject.calculateExpression();
         getBehaviourTree().getBlackBoard().putValue(getNodeCfg().getBbKey(), value);
         return Statusenum.BTSUCCESS;
     }

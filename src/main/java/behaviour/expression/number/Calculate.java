@@ -1,33 +1,35 @@
 package behaviour.expression.number;
-
-import config.behaviour.Calculatorenum;
 import behaviour.BehaviourFactory;
 import behaviour.BehaviourTree;
-import behaviour.condition.Condition;
 import behaviour.expression.ExpressionNumber;
+import config.behaviour.Calculatorenum;
+import config.behaviour.Condition;
 
 
+/**
+ * Created by zyao on 2024/1/2 17:40
+ */
 public class Calculate extends ExpressionNumber<config.behaviour.expnumber.Calculate> {
 
     private ExpressionNumber<? extends config.behaviour.ExpNumber> leftExpr = null;
     private ExpressionNumber<? extends config.behaviour.ExpNumber> rightExpr = null;
 
     @SuppressWarnings("unchecked")
-    public Calculate(BehaviourTree behaviourTree, config.behaviour.ExpNumber exprCfg, Condition<? extends config.behaviour.Condition> condition) {
+    public Calculate(BehaviourTree behaviourTree, config.behaviour.expnumber.Calculate exprCfg, behaviour.condition.Condition<? extends Condition> condition) {
         super(behaviourTree, exprCfg, condition);
     }
 
-    public double calculateExpressionNumber() {
-        return calculate();
+    protected Double internalCalculateExpression() {
+        return calculate(false);
     }
 
-    public double calculateExpressionNumberAndListenEvent() {
-        throw new RuntimeException("not support trigger");
+    protected Double internalCalculateExpressionAndListenEvent() {
+        return calculate(true);
     }
 
-    private double calculate() {
-        double leftValue = leftExpr.calculateExpressionNumber();
-        double rightValue = rightExpr.calculateExpressionNumber();
+    private double calculate(boolean listenEvent) {
+        double leftValue = listenEvent ? leftExpr.calculateExpression() : leftExpr.calculateExpressionAndListenEvent();
+        double rightValue = listenEvent ? rightExpr.calculateExpression() : rightExpr.calculateExpressionAndListenEvent();
 
         if (getExprCfg().getCalculator() == Calculatorenum.PLUS.getId()) {
             return leftValue + rightValue;
@@ -45,8 +47,8 @@ public class Calculate extends ExpressionNumber<config.behaviour.expnumber.Calcu
     @Override
     public void loadFromCfg() {
         super.loadFromCfg();
-        leftExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), getExprCfg().getLeft(), null);
-        rightExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), getExprCfg().getRight(), null);
+        leftExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), getExprCfg().getLeft(), this.getCondition());
+        rightExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), getExprCfg().getRight(), this.getCondition());
     }
 
     @Override

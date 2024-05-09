@@ -1,15 +1,20 @@
 package behaviour.expression;
+
 import behaviour.BehaviourTree;
-import behaviour.condition.Condition;
+import config.behaviour.Condition;
 
-public abstract class ExpressionNumber<T extends config.behaviour.ExpNumber> extends Expression<T>{
+/**
+ * Created by zyao on 2023/12/20 17:52
+ */
+public abstract class ExpressionNumber<T extends config.behaviour.ExpNumber> extends Expression<T, Double>{
     @SuppressWarnings("unchecked")
-    public ExpressionNumber(BehaviourTree behaviourTree, config.behaviour.ExpNumber exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        super(behaviourTree, (T)exprCfg, condition);
+    public ExpressionNumber(BehaviourTree behaviourTree, T exprCfg, behaviour.condition.Condition<? extends Condition> condition) {
+        super(behaviourTree, exprCfg, condition);
     }
+    @Override
+    protected abstract Double internalCalculateExpression();
 
-    public abstract double calculateExpressionNumber();
-
-    public abstract double calculateExpressionNumberAndListenEvent();
+    @Override
+    protected abstract Double internalCalculateExpressionAndListenEvent();
 
 }

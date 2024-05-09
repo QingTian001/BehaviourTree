@@ -19,4 +19,15 @@ public  class BehaviourHelper {
     public static boolean isConditionNull(config.behaviour.Condition cond) {
         return cond.getClass() == config.behaviour.condition.NULL.class;
     }
+    public static double convertToDouble(int value) {
+        return value;
+    }
+
+    public static double convertToDouble(long value) {
+        return value;
+    }
+
+    public static double convertToDouble(float value) {
+        return value;
+    }
 }

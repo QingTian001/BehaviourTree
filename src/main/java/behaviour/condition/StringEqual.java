@@ -17,15 +17,15 @@ public class StringEqual extends Condition<StrEqual> {
 
     @Override
     public boolean calculateConditionResult() {
-        String left = leftExprStr.calculateExpressionString();
-        String right = rightExprStr.calculateExpressionString();
+        String left = leftExprStr.calculateExpression();
+        String right = rightExprStr.calculateExpression();
         return left.equals(right);
     }
 
     @Override
     public boolean calculateConditionResultAndListenEvent() {
-        String left = leftExprStr.calculateExpressionStringAndListenEvent();
-        String right = rightExprStr.calculateExpressionStringAndListenEvent();
+        String left = leftExprStr.calculateExpressionAndListenEvent();
+        String right = rightExprStr.calculateExpressionAndListenEvent();
         return left.equals(right);
     }
 

@@ -20,7 +20,7 @@ public class BehaviourFactory {
     private static final Map<Class<? extends config.behaviour.Node>, Constructor<? extends Node<? extends config.behaviour.Node>>> nodeConstuctorMap = new HashMap<>();
     private static final Map<Class<?  extends config.behaviour.Condition>, Constructor<? extends Condition<?>>> conditionConstuctorMap = new HashMap<>();
 
-    private static final Map<Class<?>, Constructor<? extends Expression<?>>> expressionConstuctorMap = new HashMap<>();
+    private static final Map<Class<?>, Constructor<? extends Expression<?, ?>>> expressionConstuctorMap = new HashMap<>();
 
 
     @SuppressWarnings("unchecked")
@@ -37,7 +37,7 @@ public class BehaviourFactory {
                 }
                 if (Expression.class.isAssignableFrom(clazz) && clazz != Expression.class && !Modifier.isAbstract(clazz.getModifiers())) {
                     Class<?> cfgClz = ReflectionUtil.getSuperGenericType(clazz);
-                    expressionConstuctorMap.put(cfgClz, (Constructor<? extends Expression<?>>) clazz.getDeclaredConstructor(BehaviourTree.class, cfgClz.getInterfaces()[0], Condition.class));
+                    expressionConstuctorMap.put(cfgClz, (Constructor<? extends Expression<?, ?>>) clazz.getDeclaredConstructor(BehaviourTree.class, cfgClz.getInterfaces()[0], Condition.class));
                 }
 
             } catch (Exception e) {
@@ -75,10 +75,15 @@ public class BehaviourFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T, E extends Expression<? extends T>> E createExpression(BehaviourTree behaviourTree, T exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        Constructor<? extends Expression<T>> exprConstructor =  (Constructor<? extends Expression<T>>)expressionConstuctorMap.get(exprCfg.getClass());
+    public static <T, V, E extends Expression<? extends T, V>> E createExpressionWithoutCondition(BehaviourTree behaviourTree, T exprCfg) {
+        return createExpression(behaviourTree, exprCfg, null);
+    }
 
-        Expression<T> expr = null;
+    @SuppressWarnings("unchecked")
+    public static <T, V, E extends Expression<? extends T, V>> E createExpression(BehaviourTree behaviourTree, T exprCfg, Condition<? extends config.behaviour.Condition> condition) {
+        Constructor<? extends Expression<T, V>> exprConstructor =  (Constructor<? extends Expression<T, V>>)expressionConstuctorMap.get(exprCfg.getClass());
+
+        Expression<T, V> expr = null;
         try {
             expr =  exprConstructor.newInstance(behaviourTree, exprCfg, condition);
         } catch (Exception e) {

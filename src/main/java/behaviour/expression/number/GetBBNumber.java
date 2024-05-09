@@ -4,20 +4,22 @@ import behaviour.BlackBoard;
 import behaviour.condition.Condition;
 import behaviour.expression.ExpressionNumber;
 
-
+/**
+ * Created by zyao on 2023/12/28 14:46
+ */
 public class GetBBNumber extends ExpressionNumber<config.behaviour.expnumber.GetBBNumber> {
     private final BlackBoard.IBBListener<Double> listener =
             (bbKey, bbValue) -> GetBBNumber.this.getCondition().setDirty();
     @SuppressWarnings("unchecked")
-    public GetBBNumber(BehaviourTree behaviourTree, config.behaviour.ExpNumber exprCfg, Condition<? extends config.behaviour.Condition> condition) {
+    public GetBBNumber(BehaviourTree behaviourTree, config.behaviour.expnumber.GetBBNumber exprCfg, Condition<? extends config.behaviour.Condition> condition) {
         super(behaviourTree, exprCfg, condition);
     }
 
-    public double calculateExpressionNumber() {
+    protected Double internalCalculateExpression() {
         return getBehaviourTree().getBlackBoard().getValue(getExprCfg().getBbKey(), 0.0);
     }
 
-    public double calculateExpressionNumberAndListenEvent() {
+    protected Double internalCalculateExpressionAndListenEvent() {
         return getBehaviourTree().getBlackBoard().getValueAndRegisterListener(getExprCfg().getBbKey(), 0.0, listener);
     }
 
