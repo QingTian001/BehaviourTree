@@ -7,6 +7,8 @@ import behaviour.condition.Condition;
 import behaviour.expression.Expression;
 import behaviour.node.Node;
 
+
+import java.util.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -96,7 +98,14 @@ public class BehaviourFactory {
 
 
     public static BehaviourTree createBehaviourTree(GEntity entity, Behaviour behaviourCfg, boolean autoReset) {
-        return new BehaviourTree(entity, behaviourCfg, autoReset);
+        return createBehaviourTree(entity, behaviourCfg, List.of(), autoReset);
+    }
+
+
+    public static BehaviourTree createBehaviourTree(GEntity entity, Behaviour behaviourCfg, List<Object> params, boolean autoReset) {
+        BehaviourTree bt = new BehaviourTree(entity, behaviourCfg, autoReset);
+        bt.initParams(params);
+        return bt;
     }
 
 
