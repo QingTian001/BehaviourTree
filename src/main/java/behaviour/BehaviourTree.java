@@ -72,6 +72,10 @@ public final class BehaviourTree {
         reset(false);
     }
 
+    public void clearBlackBoard() {
+        blackBoard.reset();
+    }
+
     public void reset(boolean recursive) {
         //blackBoard.reset(); // blackboard是不是不应被清理, 先不清理
         getBehaviourStack().reset();
