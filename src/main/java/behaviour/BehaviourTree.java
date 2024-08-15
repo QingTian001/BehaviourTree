@@ -20,15 +20,12 @@ public final class BehaviourTree {
     private BlackBoard blackBoard = new BlackBoard(this);
     private Node<? extends config.behaviour.Node> rootNode = null;
 
-    // 对于子树调用来说, 因为子树调用完后, 需要从黑板取值, 所以需要autoReset为false
-    private boolean autoReset;
     private BehaviourStack runningStack = new BehaviourStack();
 
     public BehaviourTree(GEntity entity, Behaviour behaviourCfg, boolean autoReset) {
         this.entity = entity;
         this.behaviourCfg = behaviourCfg;
         rootNode = BehaviourFactory.createNode(this, behaviourCfg.getNode());
-        this.autoReset = autoReset;
         this.id = idGen.incrementAndGet();
         this.rootNode.genNodeId();
     }
@@ -88,7 +85,7 @@ public final class BehaviourTree {
 
     public Statusenum update() {
         updateNode();
-        if (autoReset && BehaviourHelper.isNodeFinished(status)) {
+        if (BehaviourHelper.isNodeFinished(status)) {
             finish();
         }
         return status;
