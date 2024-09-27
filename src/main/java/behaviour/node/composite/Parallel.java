@@ -42,11 +42,13 @@ public class Parallel extends Composite<config.behaviour.node.Parallel>{
             }
             if (status == Statusenum.BTFAILURE) {
                 if (cfg.getOneFailAllFail()) {
+                    interruptRunningNode();
                     return Statusenum.BTFAILURE;
                 }
                 failureNodeNum++;
             } else if (status == Statusenum.BTSUCCESS) {
                 if (cfg.getOneSuccAllSucc()) {
+                    interruptRunningNode();
                     return Statusenum.BTSUCCESS;
                 }
                 successNodeNum++;
@@ -67,9 +69,16 @@ public class Parallel extends Composite<config.behaviour.node.Parallel>{
         return Statusenum.BTRUNNING;
     }
 
+    @Override
+    protected void onInterrupt() {
+        interruptRunningNode();
+    }
 
-
-
+    private void interruptRunningNode() {
+        for (var bs : behaviourStackList) {
+            bs.popAndInterruptRunningNodeAll();
+        }
+    }
 
     @Override
     protected List<? extends Node> getConfigNodeList() {

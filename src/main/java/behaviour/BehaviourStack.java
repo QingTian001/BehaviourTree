@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class BehaviourStack {
-
     private final ArrayDeque<Condition<? extends config.behaviour.Condition>> preCondList = new ArrayDeque<>();
     private final Map<Condition<? extends config.behaviour.Condition>, Node<? extends config.behaviour.Node>> cond2NodeMap = new HashMap<>();
     private final ArrayDeque<Node<? extends config.behaviour.Node>> stack = new ArrayDeque<>();
@@ -39,13 +38,22 @@ public final class BehaviourStack {
         return node;
     }
 
-    public void popRunningNodeUtil(Node<? extends config.behaviour.Node> node) {
-        Node<? extends config.behaviour.Node> popNode = null;
+    public void popAndInterruptRunningNodeUtil(Node<? extends config.behaviour.Node> node) {
+        Node<? extends config.behaviour.Node> popNode;
         while (true) {
             popNode = popRunningNode();
+            popNode.interrupt();
             if (popNode == node) {
                 return;
             }
+        }
+    }
+
+    public void popAndInterruptRunningNodeAll() {
+        Node<? extends config.behaviour.Node> popNode;
+        while (!stack.isEmpty()) {
+            popNode = popRunningNode();
+            popNode.interrupt();
         }
     }
 
@@ -73,30 +81,30 @@ public final class BehaviourStack {
         return true;
     }
 
-    // TODO 有重复代码需要精简
+    private Statusenum backTraceParentNode(Node<? extends config.behaviour.Node> curNode, Node<? extends config.behaviour.Node> endParentNode, Statusenum childStatus) {
+        Statusenum nodeStatus = childStatus;
+        while (true) {
+            curNode = curNode.getParent();
+            if (curNode == endParentNode) {
+                return nodeStatus;
+            }
+            nodeStatus = curNode.update(this, nodeStatus);
+            if (nodeStatus == Statusenum.BTRUNNING) {
+                return Statusenum.BTRUNNING;
+            }
+        }
+    }
     public Statusenum updateRunningNode(Node<? extends config.behaviour.Node> endParentNode) {
-        OutObject<behaviour.node.Node<? extends config.behaviour.Node>> obj = new OutObject<>();
+        OutObject<Node<? extends config.behaviour.Node>> obj = new OutObject<>();
         boolean ret = this.checkStackPreConditions(obj);
 
         if (!ret) {
             var node = obj.value;
-            this.popRunningNodeUtil(node);
+            this.popAndInterruptRunningNodeUtil(node);
             node.reset(true);
 
             if (node.getParent() != null) {
-                var nodeStatus = Statusenum.BTFAILURE;
-
-                while (true) {
-                    node = node.getParent();
-                    if (node == endParentNode) {
-                        return nodeStatus;
-
-                    }
-                    nodeStatus = node.update(this, nodeStatus);
-                    if (nodeStatus == Statusenum.BTRUNNING) {
-                        return Statusenum.BTRUNNING;
-                    }
-                }
+                return this.backTraceParentNode(node, endParentNode, Statusenum.BTFAILURE);
             } else {
                 return Statusenum.BTFAILURE;
             }
@@ -108,22 +116,8 @@ public final class BehaviourStack {
                 return Statusenum.BTRUNNING;
             }
             else {
-                while (true) {
-                    node = node.getParent();
-                    if (node == endParentNode) {
-                        return nodeStatus;
-
-                    }
-                    nodeStatus = node.update(this, nodeStatus);
-                    if (nodeStatus == Statusenum.BTRUNNING) {
-                        return Statusenum.BTRUNNING;
-                    }
-                }
+                return this.backTraceParentNode(node, endParentNode, nodeStatus);
             }
-
         }
     }
-
-
-
 }

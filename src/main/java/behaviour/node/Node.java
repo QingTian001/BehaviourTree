@@ -120,6 +120,13 @@ public abstract class Node<T extends config.behaviour.Node> {
         }
     }
 
+    public final void interrupt() {
+        onInterrupt();
+    }
+
+    protected void onInterrupt() {
+    }
+
     protected boolean enter() {
         return true;
     }

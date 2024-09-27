@@ -62,6 +62,13 @@ public class SubTree extends Node<config.behaviour.node.SubTree> {
 
         return status;
     }
+    
+    @Override
+    protected void onInterrupt() {
+        if (subTree != null) {
+            subTree.getBehaviourStack().popAndInterruptRunningNodeAll();
+        }
+    }
 
     @Override
     public void reset(boolean recursive) {
