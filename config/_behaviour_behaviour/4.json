@@ -2,9 +2,7 @@
 	"id":4,
 	"name":"测试Parral",
 	"objType":6,
-	"params":[
-		
-	],
+	"params":[],
 	"returnValue":{
 		"bbType":1,
 		"bbKey":"",
@@ -20,11 +18,18 @@
 				},
 				"nodes":[
 					{
-						"msg":"impossible to show",
-						"$type":"behaviour.Node.ActDebugLog"
+						"msg":{
+							"$type":"behaviour.ExpStr.Const",
+							"value":"impossible to show"
+						},
+						"$type":"behaviour.Node.ActDebugMsg",
+						"params":[]
 					}
 				],
-				"$type":"behaviour.Node.Selector"
+				"$type":"behaviour.Node.CompSelector",
+				"enterActions":[],
+				"cleanActions":[],
+				"note":""
 			},
 			{
 				"precond":{
@@ -36,23 +41,36 @@
 							"value":100,
 							"$type":"behaviour.ExpNumber.ConstInteger"
 						},
-						"$type":"behaviour.Node.WaitTimeMs"
+						"$type":"behaviour.Node.ActWaitTimeMs"
 					},
 					{
-						"msg":"Sequence waittimems finish",
-						"$type":"behaviour.Node.ActDebugLog"
+						"msg":{
+							"$type":"behaviour.ExpStr.Const",
+							"value":"Sequence waittimems finish"
+						},
+						"$type":"behaviour.Node.ActDebugMsg",
+						"params":[]
 					}
 				],
-				"$type":"behaviour.Node.Sequence"
+				"$type":"behaviour.Node.CompSequence",
+				"enterActions":[],
+				"cleanActions":[],
+				"note":""
 			},
 			{
 				"cond":{
 					"$type":"behaviour.Condition.Failure"
 				},
-				"$type":"behaviour.Node.NodeCondition"
+				"$type":"behaviour.Node.ActCondition",
+				"note":""
 			}
 		],
-		"$type":"behaviour.Node.Parallel"
+		"$type":"behaviour.Node.CompParallel",
+		"enterActions":[],
+		"cleanActions":[],
+		"note":""
 	},
-	"$type":"behaviour.behaviour"
+	"$type":"behaviour.behaviour",
+	"debug":false,
+	"note":""
 }

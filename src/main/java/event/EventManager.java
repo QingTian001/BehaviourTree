@@ -1,39 +1,35 @@
 package event;
 
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EventManager {
+    private final Map<Class<? extends Event>, LinkedHashMap<IListener<? extends Event>, Object>> listenerMap = new HashMap<>();
 
-    private Map<Class<? extends Event>, LinkedHashSet<IListener<? extends Event>>> listenerMap = new HashMap<>();
-
-    private <T extends Event> void registerListener(Class<T> eventClazz, IListener<T> listener) {
-        var listeners = listenerMap.computeIfAbsent(eventClazz, aClass -> new LinkedHashSet<>());
-        listeners.add(listener);
+    public <T extends MapObjectEvent> void registerMapObjectEventListener(Class<T> type, IMapObjectEventListener<T> listener) {
+        listenerMap.computeIfAbsent(type, key -> new LinkedHashMap<>()).putIfAbsent(listener, new Object());
     }
 
-
-    public <T extends MapObjectEvent> void registerMapObjectEventListener(Class<T> eventClazz, IMapObjectEventListener<T> listener) {
-        registerListener(eventClazz, listener);
-    }
-
-
-    private <T extends Event> void unregisterListener(Class<T> eventClazz, IListener<T> listener) {
-        var listeners = listenerMap.computeIfAbsent(eventClazz, aClass -> new LinkedHashSet<>());
+    public <T extends MapObjectEvent> void unregisterMapObjectEventListener(Class<T> type, IMapObjectEventListener<T> listener) {
+        var listeners = listenerMap.get(type);
+        if (listeners == null) { return; }
         listeners.remove(listener);
-    }
-
-    public <T extends MapObjectEvent> void unregisterMapObjectEventListener(Class<T> eventClazz, IMapObjectEventListener<T> listener) {
-        unregisterListener(eventClazz, listener);
+        if (listeners.isEmpty()) { listenerMap.remove(type); }
     }
 
     public void triggerEvent(Event event) {
-
-        var listeners = listenerMap.computeIfAbsent(event.getClass(), aClass -> new LinkedHashSet<>());
-
-        for (var listener : listeners) {
-            listener.onEvent(event);
+        var listeners = listenerMap.get(event.getClass());
+        if (listeners == null) { return; }
+        // 令牌区分注销后重新注册，当前分派不执行新注册项。
+        var snapshot = new LinkedHashMap<>(listeners);
+        for (var entry : snapshot.entrySet()) {
+            var current = listenerMap.get(event.getClass());
+            if (current != null && current.get(entry.getKey()) == entry.getValue()) {
+                entry.getKey().onEvent(event);
+            }
         }
     }
+
+    boolean isEmpty() { return listenerMap.isEmpty(); }
 }

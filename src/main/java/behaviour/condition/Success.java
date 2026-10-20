@@ -1,33 +1,16 @@
 package behaviour.condition;
 
-import behaviour.BehaviourTree;
-
+/**
+ * Success condition.
+ */
 public class Success extends Condition<config.behaviour.condition.Success> {
 
-    public Success(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parent) {
-        super(behaviourTree, condCfg, parent);
-    }
-
-
-    @Override
-    public boolean calculateConditionResult() {
-        return true;
-    }
-
-    @Override
-    public boolean calculateConditionResultAndListenEvent() {
-        return true;
-    }
-
-    @Override
-    public void reset(boolean recursive) {
-        super.reset(recursive);
+    public Success(config.behaviour.condition.Success atomCfg) {
+        super(atomCfg);
     }
 
     @Override
     public void loadFromCfg() {
-
+        // No configuration needed.
     }
 }
-
-

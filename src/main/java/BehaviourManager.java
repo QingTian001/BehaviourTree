@@ -1,43 +1,30 @@
+import behaviour.BehaviourFactory;
 import config.ConfigCodeSchema;
 import config.ConfigMgr;
 import config.ConfigMgrLoader;
 import configgen.genjava.ConfigInput;
-import configgen.genjava.Schema;
-import configgen.genjava.SchemaCompatibleException;
-
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.nio.file.Path;
 
 public class BehaviourManager {
-
     public static void start() {
-        // start log4j
         System.getProperties().putIfAbsent("log4j.configurationFile", "log4j2.xml");
-        // load cfg
         load("config.data", new ConfigMgr());
     }
 
     public static void load(String configData, ConfigMgr configMgr) {
-        try {
-            Schema codeSchema = ConfigCodeSchema.getCodeSchema();
-            try (ConfigInput input = new ConfigInput(new DataInputStream(new BufferedInputStream(new FileInputStream(configData))))) {
-                Schema dataSchema = Schema.create(input);
-                boolean compatible = codeSchema.compatible(dataSchema);
-                if (compatible) {
-                    ConfigMgr mgr = ConfigMgrLoader.load(configMgr, input);
-                    ConfigMgr.setMgr(mgr);
-                } else {
-                    throw new RuntimeException("schema not compatible, ignore load configdata");
-                }
+        try (ConfigInput input = new ConfigInput(Path.of(configData))) {
+            var dataSchema = ConfigMgrLoader.loadSchema(input);
+            if (dataSchema == null || !ConfigCodeSchema.getCodeSchema().compatible(dataSchema)) {
+                throw new IllegalArgumentException("配置数据与代码的 schema 不兼容，请重新运行 genconfig.bat");
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            ConfigMgr mgr = ConfigMgrLoader.load(configMgr, input);
+            ConfigMgr.setMgr(mgr);
+            BehaviourFactory.start();
+            BehaviourFactory.preloadBehaviourTrees(mgr.allBehaviourBehaviour());
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("加载行为树配置失败: " + configData, e);
         }
     }
 
-    public static void main(String[] args) {
-        BehaviourManager.start();
-    }
+    public static void main(String[] args) { start(); }
 }

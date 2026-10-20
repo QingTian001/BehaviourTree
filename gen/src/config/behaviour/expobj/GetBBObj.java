@@ -1,6 +1,7 @@
 package config.behaviour.expobj;
 
-public class GetBBObj implements config.behaviour.ExpObj {
+// GetBBObj
+public final class GetBBObj implements config.behaviour.expobj.ExpObj {
     @Override
     public config.behaviour.Expobjenum type() {
         return config.behaviour.Expobjenum.GETBBOBJ;
@@ -17,7 +18,7 @@ public class GetBBObj implements config.behaviour.ExpObj {
 
     public static GetBBObj _create(configgen.genjava.ConfigInput input) {
         GetBBObj self = new GetBBObj();
-        self.bbKey = input.readStr();
+        self.bbKey = input.readStringInPool();
         return self;
     }
 

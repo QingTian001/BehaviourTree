@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[statusenum]
 public enum Statusenum {
     BTSUCCESS("BTSuccess", 1),
     BTFAILURE("BTFailure", 2),
@@ -14,7 +15,7 @@ public enum Statusenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Statusenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Statusenum> map = new java.util.HashMap<>();
 
     static {
         for(Statusenum e : Statusenum.values()) {

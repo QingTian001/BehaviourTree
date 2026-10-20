@@ -1,34 +1,35 @@
 package config.behaviour.condition;
 
-public class StrEqual implements config.behaviour.Condition {
+// StrEqual
+public final class StrEqual implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.STREQUAL;
     }
 
-    private config.behaviour.ExpStr left;
-    private config.behaviour.ExpStr right;
+    private config.behaviour.expstr.ExpStr left;
+    private config.behaviour.expstr.ExpStr right;
 
     private StrEqual() {
     }
 
-    public StrEqual(config.behaviour.ExpStr left, config.behaviour.ExpStr right) {
+    public StrEqual(config.behaviour.expstr.ExpStr left, config.behaviour.expstr.ExpStr right) {
         this.left = left;
         this.right = right;
     }
 
     public static StrEqual _create(configgen.genjava.ConfigInput input) {
         StrEqual self = new StrEqual();
-        self.left = config.behaviour.ExpStr._create(input);
-        self.right = config.behaviour.ExpStr._create(input);
+        self.left = config.behaviour.expstr.ExpStr._create(input);
+        self.right = config.behaviour.expstr.ExpStr._create(input);
         return self;
     }
 
-    public config.behaviour.ExpStr getLeft() {
+    public config.behaviour.expstr.ExpStr getLeft() {
         return left;
     }
 
-    public config.behaviour.ExpStr getRight() {
+    public config.behaviour.expstr.ExpStr getRight() {
         return right;
     }
 
@@ -48,6 +49,12 @@ public class StrEqual implements config.behaviour.Condition {
     @Override
     public String toString() {
         return "StrEqual(" + left + "," + right + ")";
+    }
+
+    @Override
+    public void _resolve(config.ConfigMgr mgr) {
+        left._resolve(mgr);
+        right._resolve(mgr);
     }
 
 }

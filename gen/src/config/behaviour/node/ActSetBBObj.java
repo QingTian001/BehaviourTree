@@ -1,26 +1,30 @@
 package config.behaviour.node;
 
-public class ActSetBBObj implements config.behaviour.Node {
+// ActSetBBObj
+public final class ActSetBBObj implements config.behaviour.node.Node {
     @Override
     public config.behaviour.Nodeenum type() {
         return config.behaviour.Nodeenum.ACTSETBBOBJ;
     }
 
     private String bbKey;
-    private config.behaviour.ExpObj value;
+    private config.behaviour.expobj.ExpObj value;
+    private String note;
 
     private ActSetBBObj() {
     }
 
-    public ActSetBBObj(String bbKey, config.behaviour.ExpObj value) {
+    public ActSetBBObj(String bbKey, config.behaviour.expobj.ExpObj value, String note) {
         this.bbKey = bbKey;
         this.value = value;
+        this.note = note;
     }
 
     public static ActSetBBObj _create(configgen.genjava.ConfigInput input) {
         ActSetBBObj self = new ActSetBBObj();
-        self.bbKey = input.readStr();
-        self.value = config.behaviour.ExpObj._create(input);
+        self.bbKey = input.readStringInPool();
+        self.value = config.behaviour.expobj.ExpObj._create(input);
+        self.note = input.readStringInPool();
         return self;
     }
 
@@ -28,13 +32,17 @@ public class ActSetBBObj implements config.behaviour.Node {
         return bbKey;
     }
 
-    public config.behaviour.ExpObj getValue() {
+    public config.behaviour.expobj.ExpObj getValue() {
         return value;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(bbKey, value);
+        return java.util.Objects.hash(bbKey, value, note);
     }
 
     @Override
@@ -42,12 +50,17 @@ public class ActSetBBObj implements config.behaviour.Node {
         if (!(other instanceof ActSetBBObj))
             return false;
         ActSetBBObj o = (ActSetBBObj) other;
-        return bbKey.equals(o.bbKey) && value.equals(o.value);
+        return bbKey.equals(o.bbKey) && value.equals(o.value) && note.equals(o.note);
     }
 
     @Override
     public String toString() {
-        return "ActSetBBObj(" + bbKey + "," + value + ")";
+        return "ActSetBBObj(" + bbKey + "," + value + "," + note + ")";
+    }
+
+    @Override
+    public void _resolve(config.ConfigMgr mgr) {
+        value._resolve(mgr);
     }
 
 }

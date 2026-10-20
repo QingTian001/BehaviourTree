@@ -2,9 +2,7 @@
 	"id":2,
 	"name":"测试Selector",
 	"objType":6,
-	"params":[
-		
-	],
+	"params":[],
 	"returnValue":{
 		"bbType":1,
 		"bbKey":"",
@@ -19,24 +17,30 @@
 				"cond":{
 					"$type":"behaviour.Condition.Failure"
 				},
-				"$type":"behaviour.Node.NodeCondition"
+				"$type":"behaviour.Node.ActCondition",
+				"note":""
 			},
 			{
 				"timeMs":{
 					"value":300,
 					"$type":"behaviour.ExpNumber.ConstInteger"
 				},
-				"$type":"behaviour.Node.WaitTimeMs"
+				"$type":"behaviour.Node.ActWaitTimeMs"
 			},
-			
 			{
 				"cond":{
 					"$type":"behaviour.Condition.Failure"
 				},
-				"$type":"behaviour.Node.NodeCondition"
+				"$type":"behaviour.Node.ActCondition",
+				"note":""
 			}
 		],
-		"$type":"behaviour.Node.Selector"
+		"$type":"behaviour.Node.CompSelector",
+		"enterActions":[],
+		"cleanActions":[],
+		"note":""
 	},
-	"$type":"behaviour.behaviour"
+	"$type":"behaviour.behaviour",
+	"debug":false,
+	"note":""
 }

@@ -1,24 +1,19 @@
 package behaviour.expression.number;
-import behaviour.BehaviourHelper;
-import behaviour.BehaviourTree;
-import behaviour.condition.Condition;
+
 import behaviour.expression.ExpressionNumber;
 
 /**
- * Created by zyao on 2023/12/27 16:24
+ * Constant float expression.
+ * Flyweight pattern - logic here, no runtime state.
  */
 public class ConstFloat extends ExpressionNumber<config.behaviour.expnumber.ConstFloat> {
-    @SuppressWarnings("unchecked")
-    public ConstFloat(BehaviourTree behaviourTree, config.behaviour.expnumber.ConstFloat exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        super(behaviourTree, exprCfg, condition);
+
+    public ConstFloat(config.behaviour.expnumber.ConstFloat atomCfg) {
+        super(atomCfg);
     }
 
-    protected Double internalCalculateExpression() {
-        return BehaviourHelper.convertToDouble(getExprCfg().getValue());
+    @Override
+    public void loadFromCfg() {
+        // No child expressions to load
     }
-
-    protected Double internalCalculateExpressionAndListenEvent() {
-        return BehaviourHelper.convertToDouble(getExprCfg().getValue());
-    }
-
 }

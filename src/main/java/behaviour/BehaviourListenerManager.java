@@ -1,9 +1,10 @@
 package behaviour;
 
-import event.GEntityEventManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import behaviour.condition.Condition;
+import behaviour.GEntity;
+import behaviour.runtime.ListenerHandle;
+import behaviour.runtime.ListenerManager;
+import behaviour.task.BehaviourTreeTask;
+import behaviour.task.ConditionTask;
 import event.IMapObjectEventListener;
 import event.MapObjectEvent;
 
@@ -11,15 +12,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BehaviourListenerManager {
-    private static final Logger logger = LogManager.getLogger(BehaviourListenerManager.class);
-    private final Condition<? extends config.behaviour.Condition> cond;
-    private final Map<GEntity, Map<Class<? extends MapObjectEvent>, IMapObjectEventListener<? extends MapObjectEvent>>> entity2ListenerMap = new HashMap<>();
-    private BehaviourListenerManager(Condition<? extends config.behaviour.Condition> cond) {
-        this.cond = cond;
+    private final ListenerManager listenerManager;
+    private final BehaviourTreeTask behaviourTree;
+    private final Runnable dirtyCallback;
+    private final Map<GEntity, Map<Class<? extends MapObjectEvent>, ListenerHandle>> entity2ListenerMap = new HashMap<>();
+
+    private BehaviourListenerManager(
+            ListenerManager listenerManager,
+            BehaviourTreeTask behaviourTree,
+            Runnable dirtyCallback) {
+        this.listenerManager = listenerManager;
+        this.behaviourTree = behaviourTree;
+        this.dirtyCallback = dirtyCallback;
     }
 
-    public static BehaviourListenerManager createBehaviourListenerManager(Condition<? extends config.behaviour.Condition> cond) {
-        return cond == null? null : new BehaviourListenerManager(cond);
+    private BehaviourListenerManager(ConditionTask condTask) {
+        this(condTask.getRuntimeListenerManager(), condTask.getBehaviourTreeTask(), condTask::setDirty);
+    }
+
+    public BehaviourTreeTask getBehaviourTree() {
+        return behaviourTree;
+    }
+
+    public static BehaviourListenerManager createBehaviourListenerManager(ConditionTask condTask) {
+        return condTask == null? null : new BehaviourListenerManager(condTask);
+    }
+
+    public static BehaviourListenerManager createBehaviourListenerManager(
+            ListenerManager listenerManager,
+            BehaviourTreeTask behaviourTree,
+            Runnable dirtyCallback) {
+        if (listenerManager == null) {
+            throw new IllegalArgumentException("listenerManager is null");
+        }
+        if (behaviourTree == null) {
+            throw new IllegalArgumentException("behaviourTree is null");
+        }
+        if (dirtyCallback == null) {
+            throw new IllegalArgumentException("dirtyCallback is null");
+        }
+        return new BehaviourListenerManager(listenerManager, behaviourTree, dirtyCallback);
     }
 
     public <Event extends MapObjectEvent> void registerMapObjectEvent(GEntity entity, Class<Event> eventClazz) {
@@ -30,29 +62,26 @@ public class BehaviourListenerManager {
         var listener = new IMapObjectEventListener<Event>() {
             @Override
             public void onTriggerEvent(Event event) {
-                cond.setDirty();
+                // 这里统一负责脏标；业务 listener 只处理额外副作用。
+                dirtyCallback.run();
                 if (eventListener != null) {
                     eventListener.onTriggerEvent(event);
                 }
             }
         };
-        logger.info("BehaviourListenerManager.registerMapObjectEvent: entity:{} , event:{}, listener:{}", entity, eventClazz, listener);
-        GEntityEventManager.getInstance().registerListener(entity, eventClazz, listener);
+        this.getBehaviourTree().log(org.apache.logging.log4j.Level.INFO, this.getClass(), "BehaviourListenerManager.registerMapObjectEvent: entity:{} , event:{}, listener:{}", entity.getInstanceId(), eventClazz, listener);
 
         var listenerSet = entity2ListenerMap.computeIfAbsent(entity, e -> new HashMap<>());
-        listenerSet.put(eventClazz, listener);
+        ListenerHandle oldHandle = listenerSet.put(eventClazz, null);
+        if (oldHandle != null) {
+            oldHandle.dispose();
+        }
+        ListenerHandle handle = listenerManager.listen(entity, eventClazz, listener);
+        listenerSet.put(eventClazz, handle);
     }
 
-    @SuppressWarnings("unchecked")
     public void onReset() {
-        // 清理事件
-        entity2ListenerMap.forEach((entity, iMapObjectEventListeners) -> {
-            for (var entry : iMapObjectEventListeners.entrySet()) {
-                Class<MapObjectEvent> clz = (Class<MapObjectEvent>)entry.getKey();
-                var listener = (IMapObjectEventListener<MapObjectEvent>)entry.getValue();
-                logger.info("BehaviourListenerManager.onReset: entity:{} , event:{}, listener:{}", entity, clz, listener);
-                GEntityEventManager.getInstance().unregisterListener(entity, clz, listener);
-            }
-        });
+        listenerManager.reset();
+        entity2ListenerMap.clear();
     }
 }

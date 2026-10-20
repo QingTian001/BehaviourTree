@@ -3,17 +3,9 @@ package configgen.genjava;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchemaBean implements Schema {
+public final class SchemaBean implements Schema {
 
-    public static class Column {
-        public final String name;
-        public final Schema schema;
-
-        public Column(String name, Schema schema) {
-            this.name = name;
-            this.schema = schema;
-        }
-
+    public record Column(String name, Schema schema) {
         public boolean compatible(Column other) {
             return name.equals(other.name) && schema.compatible(other.schema);
         }
@@ -21,14 +13,6 @@ public class SchemaBean implements Schema {
 
     public final boolean isTable;
     public final List<Column> columns = new ArrayList<>();
-
-    public SchemaBean(ConfigInput input) {
-        isTable = input.readBool();
-        int size = input.readInt();
-        for (int i = 0; i < size; i++) {
-            columns.add(new Column(input.readStr(), Schema.create(input)));
-        }
-    }
 
     public SchemaBean(boolean isTable) {
         this.isTable = isTable;
@@ -40,10 +24,9 @@ public class SchemaBean implements Schema {
 
     @Override
     public boolean compatible(Schema other) {
-        if (!(other instanceof SchemaBean)) {
+        if (!(other instanceof SchemaBean sb)) {
             return false;
         }
-        SchemaBean sb = (SchemaBean) other;
         if (isTable != sb.isTable) {
             return false;
         }
@@ -59,27 +42,6 @@ public class SchemaBean implements Schema {
             }
         }
         return true;
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public <T> T accept(VisitorT<T> visitor) {
-        return visitor.visit(this);
-    }
-
-    @Override
-    public void write(ConfigOutput output) {
-        output.writeInt(BEAN);
-        output.writeBool(isTable);
-        output.writeInt(columns.size());
-        for (Column column : columns) {
-            output.writeStr(column.name);
-            column.schema.write(output);
-        }
     }
 
 }

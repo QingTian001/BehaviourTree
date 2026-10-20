@@ -1,6 +1,7 @@
 package config.behaviour.expnumber;
 
-public class GetBBNumber implements config.behaviour.ExpNumber {
+// getBBNumber
+public final class GetBBNumber implements config.behaviour.expnumber.ExpNumber {
     @Override
     public config.behaviour.Expnumberenum type() {
         return config.behaviour.Expnumberenum.GETBBNUMBER;
@@ -17,7 +18,7 @@ public class GetBBNumber implements config.behaviour.ExpNumber {
 
     public static GetBBNumber _create(configgen.genjava.ConfigInput input) {
         GetBBNumber self = new GetBBNumber();
-        self.bbKey = input.readStr();
+        self.bbKey = input.readStringInPool();
         return self;
     }
 

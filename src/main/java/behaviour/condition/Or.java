@@ -1,50 +1,31 @@
 package behaviour.condition;
 
 import behaviour.BehaviourFactory;
-import behaviour.BehaviourTree;
 
-public class Or extends Condition<config.behaviour.condition.Or>{
+/**
+ * Or condition - Flyweight pattern.
+ * Computes logical OR of two child conditions.
+ */
+public class Or extends Condition<config.behaviour.condition.Or> {
 
-    private Condition<? extends config.behaviour.Condition> leftCond = null;
-    private Condition<? extends config.behaviour.Condition> rightCond = null;
-    public Or(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parent) {
-        super(behaviourTree, condCfg, parent);
+    private Condition<? extends config.behaviour.condition.Condition> leftCond = null;
+    private Condition<? extends config.behaviour.condition.Condition> rightCond = null;
+
+    public Or(config.behaviour.condition.Or atomCfg) {
+        super(atomCfg);
     }
 
-
-    @Override
-    public boolean calculateConditionResult() {
-        boolean left = leftCond.calculateConditionResult();
-        boolean right = rightCond.calculateConditionResult();
-
-        return left || right;
+    public Condition<? extends config.behaviour.condition.Condition> getLeftCond() {
+        return leftCond;
     }
 
-    @Override
-    public boolean calculateConditionResultAndListenEvent() {
-        boolean left = leftCond.calculateConditionResultAndListenEvent();
-        boolean right = rightCond.calculateConditionResultAndListenEvent();
-
-        return left || right;
-    }
-
-    @Override
-    public void reset(boolean recursive) {
-        super.reset(recursive);
-        leftCond.reset(recursive);
-        rightCond.reset(recursive);
+    public Condition<? extends config.behaviour.condition.Condition> getRightCond() {
+        return rightCond;
     }
 
     @Override
     public void loadFromCfg() {
-        leftCond = BehaviourFactory.createCondition(this.getBehaviourTree(), getCondCfg().getCond1(), this);
-        rightCond = BehaviourFactory.createCondition(this.getBehaviourTree(), getCondCfg().getCond2(), this);
-    }
-
-    @Override
-    public void clearDirty() {
-        super.clearDirty();
-        leftCond.clearDirty();
-        rightCond.clearDirty();
+        leftCond = BehaviourFactory.createCondition(getAtomCfg().getCond1());
+        rightCond = BehaviourFactory.createCondition(getAtomCfg().getCond2());
     }
 }

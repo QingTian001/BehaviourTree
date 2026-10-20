@@ -1,6 +1,7 @@
 package config.behaviour.expstr;
 
-public class Const implements config.behaviour.ExpStr {
+// Const
+public final class Const implements config.behaviour.expstr.ExpStr {
     @Override
     public config.behaviour.Expstrenum type() {
         return config.behaviour.Expstrenum.CONST;
@@ -17,7 +18,7 @@ public class Const implements config.behaviour.ExpStr {
 
     public static Const _create(configgen.genjava.ConfigInput input) {
         Const self = new Const();
-        self.value = input.readStr();
+        self.value = input.readStringInPool();
         return self;
     }
 

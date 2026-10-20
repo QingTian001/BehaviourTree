@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[conditionenum]
 public enum Conditionenum {
     NULL("NULL", 1),
     STREQUAL("StrEqual", 2),
@@ -9,7 +10,9 @@ public enum Conditionenum {
     OR("Or", 6),
     COMPARE("Compare", 7),
     SUCCESS("Success", 8),
-    FAILURE("Failure", 9);
+    FAILURE("Failure", 9),
+    ISENTITYDESTROYED("IsEntityDestroyed", 10),
+    CHECKISININTERACTION("checkIsInInteraction", 11);
 
     private final String name;
     private final int value;
@@ -19,7 +22,7 @@ public enum Conditionenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Conditionenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Conditionenum> map = new java.util.HashMap<>();
 
     static {
         for(Conditionenum e : Conditionenum.values()) {

@@ -1,20 +1,21 @@
 package config.behaviour.condition;
 
-public class Compare implements config.behaviour.Condition {
+// Compare
+public final class Compare implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.COMPARE;
     }
 
-    private config.behaviour.ExpNumber left;
-    private config.behaviour.ExpNumber right;
+    private config.behaviour.expnumber.ExpNumber left;
+    private config.behaviour.expnumber.ExpNumber right;
     private int comarator;
     private config.behaviour.Compareenum RefComarator;
 
     private Compare() {
     }
 
-    public Compare(config.behaviour.ExpNumber left, config.behaviour.ExpNumber right, int comarator) {
+    public Compare(config.behaviour.expnumber.ExpNumber left, config.behaviour.expnumber.ExpNumber right, int comarator) {
         this.left = left;
         this.right = right;
         this.comarator = comarator;
@@ -22,17 +23,17 @@ public class Compare implements config.behaviour.Condition {
 
     public static Compare _create(configgen.genjava.ConfigInput input) {
         Compare self = new Compare();
-        self.left = config.behaviour.ExpNumber._create(input);
-        self.right = config.behaviour.ExpNumber._create(input);
+        self.left = config.behaviour.expnumber.ExpNumber._create(input);
+        self.right = config.behaviour.expnumber.ExpNumber._create(input);
         self.comarator = input.readInt();
         return self;
     }
 
-    public config.behaviour.ExpNumber getLeft() {
+    public config.behaviour.expnumber.ExpNumber getLeft() {
         return left;
     }
 
-    public config.behaviour.ExpNumber getRight() {
+    public config.behaviour.expnumber.ExpNumber getRight() {
         return right;
     }
 
@@ -62,12 +63,16 @@ public class Compare implements config.behaviour.Condition {
         return "Compare(" + left + "," + right + "," + comarator + ")";
     }
 
+    public void _resolveDirect(config.ConfigMgr mgr) {
+        RefComarator = config.behaviour.Compareenum.get(comarator);
+        configgen.genjava.LoadValueErrs.requireNonNull(RefComarator, "Compare.comarator -> behaviour.compareenum", comarator);
+    }
+
     @Override
     public void _resolve(config.ConfigMgr mgr) {
         left._resolve(mgr);
         right._resolve(mgr);
-        RefComarator = config.behaviour.Compareenum.get(comarator);
-        java.util.Objects.requireNonNull(RefComarator);
+        _resolveDirect(mgr);
     }
 
 }

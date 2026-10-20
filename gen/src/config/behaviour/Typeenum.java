@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[typeenum]
 public class Typeenum {
     private int id;
     private String ename;
@@ -10,7 +11,7 @@ public class Typeenum {
     public static Typeenum _create(configgen.genjava.ConfigInput input) {
         Typeenum self = new Typeenum();
         self.id = input.readInt();
-        self.ename = input.readStr();
+        self.ename = input.readStringInPool();
         return self;
     }
 
@@ -39,12 +40,13 @@ public class Typeenum {
         config.ConfigMgr mgr = config.ConfigMgr.getMgr();
         return mgr.allBehaviourTypeenum();
     }
-
     public static class _ConfigLoader implements config.ConfigLoader {
 
         @Override
         public void createAll(config.ConfigMgr mgr, configgen.genjava.ConfigInput input) {
-            for (int c = input.readInt(); c > 0; c--) {
+            int c = input.readInt();
+            mgr.behaviour_typeenum_All = new java.util.LinkedHashMap<>(c);
+            for (; c > 0; c--) {
                 Typeenum self = Typeenum._create(input);
                 mgr.behaviour_typeenum_All.put(self.id, self);
             }

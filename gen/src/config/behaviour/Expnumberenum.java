@@ -1,11 +1,18 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[expnumberenum]
 public enum Expnumberenum {
     CONSTFLOAT("ConstFloat", 1),
     GETBBNUMBER("getBBNumber", 2),
     CONSTLONG("ConstLong", 3),
     CONSTINTEGER("ConstInteger", 4),
-    CALCULATE("Calculate", 5);
+    CALCULATE("Calculate", 5),
+    RANDINTEGER("RandInteger", 6),
+    MAX("Max", 7),
+    MIN("Min", 8),
+    GETINSTANCEID("GetInstanceId", 9),
+    GETCURRENTTIMEMILLS("GetCurrentTimeMills", 10),
+    CALCDIST("CalcDist", 11);
 
     private final String name;
     private final int value;
@@ -15,7 +22,7 @@ public enum Expnumberenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Expnumberenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Expnumberenum> map = new java.util.HashMap<>();
 
     static {
         for(Expnumberenum e : Expnumberenum.values()) {

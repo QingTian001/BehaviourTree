@@ -4,9 +4,11 @@ public class Behaviour {
     private int id;
     private String name;
     private int objType;
+    private boolean debug;
     private java.util.List<config.behaviour.BBParam> params;
     private config.behaviour.BBParam returnValue;
-    private config.behaviour.Node node;
+    private config.behaviour.node.Node node;
+    private String note;
 
     private Behaviour() {
     }
@@ -14,14 +16,23 @@ public class Behaviour {
     public static Behaviour _create(configgen.genjava.ConfigInput input) {
         Behaviour self = new Behaviour();
         self.id = input.readInt();
-        self.name = input.readStr();
+        self.name = input.readStringInPool();
         self.objType = input.readInt();
-        self.params = new java.util.ArrayList<>();
-        for (int c = input.readInt(); c > 0; c--) {
-            self.params.add(config.behaviour.BBParam._create(input));
+        self.debug = input.readBool();
+        {
+            int c = input.readInt();
+            if (c == 0) {
+                self.params = java.util.Collections.emptyList();
+            } else {
+                self.params = new java.util.ArrayList<>(c);
+                for (; c > 0; c--) {
+                    self.params.add(config.behaviour.BBParam._create(input));
+                }
+            }
         }
         self.returnValue = config.behaviour.BBParam._create(input);
-        self.node = config.behaviour.Node._create(input);
+        self.node = config.behaviour.node.Node._create(input);
+        self.note = input.readStringInPool();
         return self;
     }
 
@@ -38,6 +49,10 @@ public class Behaviour {
 
     public int getObjType() {
         return objType;
+    }
+
+    public boolean getDebug() {
+        return debug;
     }
 
     /**
@@ -57,19 +72,23 @@ public class Behaviour {
     /**
      * 节点
      */
-    public config.behaviour.Node getNode() {
+    public config.behaviour.node.Node getNode() {
         return node;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     @Override
     public String toString() {
-        return "(" + id + "," + name + "," + objType + "," + params + "," + returnValue + "," + node + ")";
+        return "(" + id + "," + name + "," + objType + "," + debug + "," + params + "," + returnValue + "," + node + "," + note + ")";
     }
 
     public void _resolve(config.ConfigMgr mgr) {
-        params.forEach( e -> {
+        for (config.behaviour.BBParam e : params) {
             e._resolve(mgr);
-        });
+        }
         returnValue._resolve(mgr);
         node._resolve(mgr);
     }
@@ -83,12 +102,13 @@ public class Behaviour {
         config.ConfigMgr mgr = config.ConfigMgr.getMgr();
         return mgr.allBehaviourBehaviour();
     }
-
     public static class _ConfigLoader implements config.ConfigLoader {
 
         @Override
         public void createAll(config.ConfigMgr mgr, configgen.genjava.ConfigInput input) {
-            for (int c = input.readInt(); c > 0; c--) {
+            int c = input.readInt();
+            mgr.behaviour_behaviour_All = new java.util.LinkedHashMap<>(c);
+            for (; c > 0; c--) {
                 Behaviour self = Behaviour._create(input);
                 mgr.behaviour_behaviour_All.put(self.id, self);
             }

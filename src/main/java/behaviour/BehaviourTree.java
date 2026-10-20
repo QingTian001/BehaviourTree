@@ -1,110 +1,69 @@
 package behaviour;
 
 import config.behaviour.Behaviour;
-import config.behaviour.Statusenum;
-//import wm.Map.entity.behaviour.GEntity;
-import behaviour.node.Node;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import behaviour.GEntity;
+import behaviour.node.Node;
+import behaviour.task.BehaviourTreeTask;
+import behaviour.task.NodeTask;
+import behaviour.trace.BehaviourTraceContext;
 
 public final class BehaviourTree {
     public static final Logger logger = LogManager.getLogger(BehaviourTree.class);
-    private static AtomicLong idGen = new AtomicLong();
-    private final long id;
-    private final GEntity entity;
+
     private final Behaviour behaviourCfg;
-    private Statusenum status = Statusenum.BTINVALID;
-    private BlackBoard blackBoard = new BlackBoard(this);
-    private Node<? extends config.behaviour.Node> rootNode = null;
+    private final Node<? extends config.behaviour.node.Node> rootNode;
 
-    private BehaviourStack runningStack = new BehaviourStack();
-
-    public BehaviourTree(GEntity entity, Behaviour behaviourCfg, boolean autoReset) {
-        this.entity = entity;
+    public BehaviourTree(Behaviour behaviourCfg) {
         this.behaviourCfg = behaviourCfg;
-        rootNode = BehaviourFactory.createNode(this, behaviourCfg.getNode());
-        this.id = idGen.incrementAndGet();
-        this.rootNode.genNodeId();
-    }
-
-    public BehaviourStack getBehaviourStack() {
-        return runningStack;
-    }
-
-    public Node<? extends config.behaviour.Node> getRootNode() {
-        return rootNode;
-    }
-
-    public GEntity getEntity() {
-        return entity;
+        this.rootNode = BehaviourFactory.createNode(behaviourCfg.getNode());
+        // 建树完成后为所有 Atom 分配树内路径与稳定 id
+        NodePath.assignTree(this.rootNode);
     }
 
     public long getId() {
-        return id;
+        return behaviourCfg.getId();
     }
 
     public Behaviour getBehaviourCfg() {
         return behaviourCfg;
     }
 
-    public Statusenum getStatus() {
-        return status;
+    public Node<? extends config.behaviour.node.Node> getRootNode() {
+        return rootNode;
     }
 
-    public BlackBoard getBlackBoard() {
-        return blackBoard;
+    public BehaviourTreeTask createRuntime(GEntity entity, BehaviourHost host) {
+        return createRuntime(entity, host, new BehaviourTraceContext(), 0, 0);
     }
 
-    public void initParams(List<Object> params) {
-        for (int i = 0; i < behaviourCfg.getParams().size(); i++) {
-            blackBoard.putValue(behaviourCfg.getParams().get(i).getBbKey(), params.get(i));
-        }
+    /**
+     * 创建树运行时；子树通过 parent 字段保留跨树关联，Trace context 由主树和子树共享。
+     */
+    public BehaviourTreeTask createRuntime(GEntity entity, BehaviourHost host, BehaviourTraceContext traceContext,
+                                           long parentTreeInstanceId, long parentNodeId) {
+        BehaviourTreeTask task = new BehaviourTreeTask(this, entity, host, traceContext,
+                parentTreeInstanceId, parentNodeId);
+        logger.info("Creating behaviour tree runtime for entity:{}, treeCfgId:{}, treeTaskInstId:{}, parrentInstanceId:{}, parentId:{}", entity.getInstanceId(), behaviourCfg.getId(), task.getInstanceId(), parentTreeInstanceId, parentNodeId);
+        NodeTask rootTask = BehaviourFactory.createNodeRuntime(rootNode, null, task.getContext());
+        task.initRootNodeTask(rootTask);
+        return task;
     }
 
-    public void finish() {
-        logger.debug("finish behaviourTree. status:{}, entityInstId:{}, btCfgId:{}. ", status, entity, this.getBehaviourCfg().getId());
-        reset(false);
-    }
-
-    public void clearBlackBoard() {
-        blackBoard.reset();
-    }
-
-    public void reset(boolean recursive) {
-        //blackBoard.reset(); // blackboard是不是不应被清理, 先不清理
-        getBehaviourStack().reset();
-        status = Statusenum.BTINVALID;
-
-        if (recursive) {
-            rootNode.reset(true);
-        }
-    }
-
-    public Statusenum update() {
-        updateNode();
-        if (BehaviourHelper.isNodeFinished(status)) {
-            finish();
-        }
-        return status;
-    }
-
-    private void updateNode() {
-        if (status == Statusenum.BTRUNNING) {
-            status = getBehaviourStack().updateRunningNode(null);
-        } else {
-            status = rootNode.update(getBehaviourStack());
-        }
-    }
-
-    public String dump() {
+    public String dump(boolean withCfg) {
         StringBuilder sb = new StringBuilder();
-        rootNode.dump(0, sb);
-        String dump = sb.toString();
-        logger.info("dump behaviourTree. entityInstId:{}, btCfgId:{}. \n{}", entity, this.getBehaviourCfg().getId(), dump);
-        return dump;
+        dump(0, sb, withCfg);
+        return sb.toString();
+    }
+
+    public void dump(int tableNum, StringBuilder dumpTo, boolean withCfg) {
+        util.StringUtil stringUtil = new util.StringUtil();
+        if (tableNum == 0) {
+            dumpTo.append("BehaviourTree CfgId:").append(this.getBehaviourCfg().getId()).append("\n");
+        } else {
+            dumpTo.append(stringUtil.getTableString(tableNum)).append("sub BehaviourTree CfgId:").append(this.getBehaviourCfg().getId()).append("\n");
+        }
+        rootNode.dump(tableNum, dumpTo, withCfg);
     }
 }
-

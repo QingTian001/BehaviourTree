@@ -1,53 +1,75 @@
 package behaviour.condition;
 
-import behaviour.BehaviourTree;
+import behaviour.GEntity;
+import behaviour.Atom;
+import behaviour.BehaviourContext;
+import behaviour.BehaviourFactory;
+import behaviour.executor.condition.ConditionExecutor;
+import behaviour.runtime.ConditionRuntime;
+import behaviour.task.BehaviourTask;
+import behaviour.task.ConditionTask;
 
-public abstract class Condition<T extends config.behaviour.Condition> {
+/**
+ * Condition base class - Flyweight pattern.
+ * Two calculation modes:
+ * 1. Normal: calculate(BehaviourContext) - no Task created
+ * 2. PreCond: calculateAndListenEvent(ConditionTask) - Task for event listening
+ *
+ * Uses Template Method pattern for logging.
+ */
+public abstract class Condition<T extends config.behaviour.condition.Condition> extends Atom<T> {
 
-    private T condCfg;
-
-    private boolean dirty = false;
-
-    // 可能为null
-    private Condition<? extends config.behaviour.Condition> parentCondition;
-    private final BehaviourTree behaviourTree;
-    @SuppressWarnings("unchecked")
-    public Condition(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parentCondition) {
-        this.condCfg = (T)condCfg;
-        this.parentCondition = parentCondition;
-        this.behaviourTree = behaviourTree;
+    public Condition(T atomCfg) {
+        super(atomCfg);
     }
 
-    public T getCondCfg() {
-        return condCfg;
+    /**
+     * Normal calculation - no runtime object needed.
+     * Delegates to executor and logs result.
+     */
+    public final boolean calculate(BehaviourContext context) {
+        boolean ret = getExecutor(ConditionExecutor.class).calculate(context);
+        context.getBehaviourTreeTask().log(org.apache.logging.log4j.Level.DEBUG,
+            this.getClass(),
+            getLogHead(context) + "; calculateConditionResult. cond:{}, ret:{}",
+            this.getClass().getSimpleName(), ret);
+        return ret;
     }
 
-    public BehaviourTree getBehaviourTree() {
-        return behaviourTree;
+    /**
+     * Calculation with event listening - for preCond usage.
+     * Delegates to executor and logs result.
+     */
+    public final boolean calculateAndListenEvent(ConditionTask task) {
+        boolean ret = task.requireExecutor(ConditionExecutor.class).calculateAndListenEvent(task);
+        task.getContext().getBehaviourTreeTask().log(org.apache.logging.log4j.Level.DEBUG,
+            this.getClass(),
+            getLogHead(task.getContext()) + "; calculateConditionResultAndListenEvent. cond:{}, ret:{}",
+            this.getClass().getSimpleName(), ret);
+        return ret;
     }
 
-    public abstract boolean calculateConditionResult();
-
-    public abstract boolean calculateConditionResultAndListenEvent();
-
-    public void setDirty() {
-        dirty = true;
-        if (parentCondition != null) {
-            parentCondition.setDirty();
-        }
+    public <R extends ConditionRuntime> R createRuntime(ConditionTask parent, BehaviourContext context, Class<R> runtimeClass) {
+        return BehaviourFactory.instantiateConditionRuntime(this, parent, context, runtimeClass);
     }
 
-    public void clearDirty() {
-        this.dirty = false;
+    @Override
+    public ConditionTask createRuntime(BehaviourTask<?> parent, BehaviourContext context) {
+        return createRuntime((ConditionTask) parent, context, ConditionTask.class);
     }
 
-    public boolean isDirty() {
-        return dirty;
+    protected GEntity getSelf(BehaviourContext context) {
+        return context.getSelf();
     }
 
-    public void reset(boolean recursive) {
-        this.dirty = false;
+    /**
+     * Get log head prefix for logging.
+     * Returns a formatted string with entity and map information.
+     */
+    protected String getLogHead(BehaviourContext context) {
+        GEntity self = context.getSelf();
+        return String.format("path:%s (#%s), entityInstId:%d, behaviourCfgId:%d",
+            getPath(), getPathIdHex(), self == null ? 0 : self.getInstanceId(), context.getBehaviourTreeTask().getId());
     }
 
-    public abstract void loadFromCfg();
 }

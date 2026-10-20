@@ -1,20 +1,13 @@
 package behaviour.expression;
 
-import behaviour.BehaviourTree;
-import config.behaviour.Condition;
+import behaviour.TypedNumber;
 
 /**
- * Created by zyao on 2023/12/20 17:52
+ * Expression that returns a number (TypedNumber).
  */
-public abstract class ExpressionNumber<T extends config.behaviour.ExpNumber> extends Expression<T, Double>{
-    @SuppressWarnings("unchecked")
-    public ExpressionNumber(BehaviourTree behaviourTree, T exprCfg, behaviour.condition.Condition<? extends Condition> condition) {
-        super(behaviourTree, exprCfg, condition);
+public abstract class ExpressionNumber<T> extends Expression<T, TypedNumber> {
+
+    public ExpressionNumber(T atomCfg) {
+        super(atomCfg);
     }
-    @Override
-    protected abstract Double internalCalculateExpression();
-
-    @Override
-    protected abstract Double internalCalculateExpressionAndListenEvent();
-
 }

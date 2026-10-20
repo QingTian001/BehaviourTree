@@ -1,27 +1,28 @@
 package config.behaviour.condition;
 
-public class Not implements config.behaviour.Condition {
+// Not
+public final class Not implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.NOT;
     }
 
-    private config.behaviour.Condition cond;
+    private config.behaviour.condition.Condition cond;
 
     private Not() {
     }
 
-    public Not(config.behaviour.Condition cond) {
+    public Not(config.behaviour.condition.Condition cond) {
         this.cond = cond;
     }
 
     public static Not _create(configgen.genjava.ConfigInput input) {
         Not self = new Not();
-        self.cond = config.behaviour.Condition._create(input);
+        self.cond = config.behaviour.condition.Condition._create(input);
         return self;
     }
 
-    public config.behaviour.Condition getCond() {
+    public config.behaviour.condition.Condition getCond() {
         return cond;
     }
 

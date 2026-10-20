@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[nodeenum]
 public class Nodeenum_Detail {
     private int id;
     private String ename;
@@ -12,7 +13,7 @@ public class Nodeenum_Detail {
     public static Nodeenum_Detail _create(configgen.genjava.ConfigInput input) {
         Nodeenum_Detail self = new Nodeenum_Detail();
         self.id = input.readInt();
-        self.ename = input.readStr();
+        self.ename = input.readStringInPool();
         self.nodeType = input.readInt();
         return self;
     }
@@ -44,9 +45,13 @@ public class Nodeenum_Detail {
         return "(" + id + "," + ename + "," + nodeType + ")";
     }
 
-    public void _resolve(config.ConfigMgr mgr) {
+    public void _resolveDirect(config.ConfigMgr mgr) {
         RefNodeType = config.behaviour.Nodetypeenum.get(nodeType);
-        java.util.Objects.requireNonNull(RefNodeType);
+        configgen.genjava.LoadValueErrs.requireNonNull(RefNodeType, "behaviour.nodeenum.nodeType -> behaviour.nodetypeenum", nodeType);
+    }
+
+    public void _resolve(config.ConfigMgr mgr) {
+        _resolveDirect(mgr);
     }
 
     public static Nodeenum_Detail get(int id) {
@@ -58,12 +63,13 @@ public class Nodeenum_Detail {
         config.ConfigMgr mgr = config.ConfigMgr.getMgr();
         return mgr.allBehaviourNodeenum();
     }
-
     public static class _ConfigLoader implements config.ConfigLoader {
 
         @Override
         public void createAll(config.ConfigMgr mgr, configgen.genjava.ConfigInput input) {
-            for (int c = input.readInt(); c > 0; c--) {
+            int c = input.readInt();
+            mgr.behaviour_nodeenum_All = new java.util.LinkedHashMap<>(c);
+            for (; c > 0; c--) {
                 Nodeenum_Detail self = Nodeenum_Detail._create(input);
                 mgr.behaviour_nodeenum_All.put(self.id, self);
             }

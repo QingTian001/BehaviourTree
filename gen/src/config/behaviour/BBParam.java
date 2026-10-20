@@ -16,7 +16,7 @@ public class BBParam {
     public static BBParam _create(configgen.genjava.ConfigInput input) {
         BBParam self = new BBParam();
         self.bbType = input.readInt();
-        self.bbKey = input.readStr();
+        self.bbKey = input.readStringInPool();
         return self;
     }
 
@@ -50,9 +50,13 @@ public class BBParam {
         return "(" + bbType + "," + bbKey + ")";
     }
 
-    public void _resolve(config.ConfigMgr mgr) {
+    public void _resolveDirect(config.ConfigMgr mgr) {
         RefBbType = mgr.behaviour_typeenum_All.get(bbType);
-        java.util.Objects.requireNonNull(RefBbType);
+        configgen.genjava.LoadValueErrs.requireNonNull(RefBbType, "behaviour.BBParam.bbType -> behaviour.typeenum", bbType);
+    }
+
+    public void _resolve(config.ConfigMgr mgr) {
+        _resolveDirect(mgr);
     }
 
 }

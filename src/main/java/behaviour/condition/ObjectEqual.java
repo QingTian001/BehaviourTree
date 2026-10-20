@@ -1,46 +1,33 @@
 package behaviour.condition;
 
-import config.behaviour.ExpObj;
-import config.behaviour.condition.ObjEqual;
+import config.behaviour.expobj.ExpObj;
 import behaviour.BehaviourFactory;
-import behaviour.BehaviourTree;
 import behaviour.expression.ExpressionObject;
 
-public class ObjectEqual extends Condition<ObjEqual> {
+/**
+ * ObjectEqual condition - Flyweight pattern.
+ * Checks if two object expressions refer to the same object.
+ */
+public class ObjectEqual extends Condition<config.behaviour.condition.ObjEqual> {
 
     private ExpressionObject<? extends ExpObj, Object> leftObjExpr = null;
     private ExpressionObject<? extends ExpObj, Object> rightObjExpr = null;
 
-    public ObjectEqual(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parent) {
-        super(behaviourTree, condCfg, parent);
+    public ObjectEqual(config.behaviour.condition.ObjEqual atomCfg) {
+        super(atomCfg);
     }
 
-    @Override
-    public boolean calculateConditionResult() {
-        Object left = leftObjExpr.calculateExpression();
-        Object right = rightObjExpr.calculateExpression();
-        return left == right;
+    public ExpressionObject<? extends ExpObj, Object> getLeftObjExpr() {
+        return leftObjExpr;
     }
 
-    @Override
-    public boolean calculateConditionResultAndListenEvent() {
-        Object left = leftObjExpr.calculateExpressionAndListenEvent();
-        Object right = rightObjExpr.calculateExpressionAndListenEvent();
-        return left == right;
-    }
-
-    @Override
-    public void reset(boolean recursive) {
-        super.reset(recursive);
-        leftObjExpr.reset();
-        rightObjExpr.reset();
+    public ExpressionObject<? extends ExpObj, Object> getRightObjExpr() {
+        return rightObjExpr;
     }
 
     @Override
     public void loadFromCfg() {
-        ObjEqual objEqualCfg = getCondCfg();
-
-        leftObjExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), objEqualCfg.getLeft(), this);
-        rightObjExpr = BehaviourFactory.createExpression(this.getBehaviourTree(), objEqualCfg.getRight(), this);
+        leftObjExpr = BehaviourFactory.createExpression(getAtomCfg().getLeft());
+        rightObjExpr = BehaviourFactory.createExpression(getAtomCfg().getRight());
     }
 }

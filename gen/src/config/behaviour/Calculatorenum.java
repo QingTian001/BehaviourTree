@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[calculatorenum]
 public enum Calculatorenum {
     PLUS("Plus", 1),
     SUB("Sub", 2),
@@ -14,7 +15,7 @@ public enum Calculatorenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Calculatorenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Calculatorenum> map = new java.util.HashMap<>();
 
     static {
         for(Calculatorenum e : Calculatorenum.values()) {

@@ -1,26 +1,30 @@
 package config.behaviour.node;
 
-public class ActSetBBNumber implements config.behaviour.Node {
+// ActSetBBNumber
+public final class ActSetBBNumber implements config.behaviour.node.Node {
     @Override
     public config.behaviour.Nodeenum type() {
         return config.behaviour.Nodeenum.ACTSETBBNUMBER;
     }
 
     private String bbKey;
-    private config.behaviour.ExpNumber value;
+    private config.behaviour.expnumber.ExpNumber value;
+    private String note;
 
     private ActSetBBNumber() {
     }
 
-    public ActSetBBNumber(String bbKey, config.behaviour.ExpNumber value) {
+    public ActSetBBNumber(String bbKey, config.behaviour.expnumber.ExpNumber value, String note) {
         this.bbKey = bbKey;
         this.value = value;
+        this.note = note;
     }
 
     public static ActSetBBNumber _create(configgen.genjava.ConfigInput input) {
         ActSetBBNumber self = new ActSetBBNumber();
-        self.bbKey = input.readStr();
-        self.value = config.behaviour.ExpNumber._create(input);
+        self.bbKey = input.readStringInPool();
+        self.value = config.behaviour.expnumber.ExpNumber._create(input);
+        self.note = input.readStringInPool();
         return self;
     }
 
@@ -28,13 +32,17 @@ public class ActSetBBNumber implements config.behaviour.Node {
         return bbKey;
     }
 
-    public config.behaviour.ExpNumber getValue() {
+    public config.behaviour.expnumber.ExpNumber getValue() {
         return value;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(bbKey, value);
+        return java.util.Objects.hash(bbKey, value, note);
     }
 
     @Override
@@ -42,12 +50,12 @@ public class ActSetBBNumber implements config.behaviour.Node {
         if (!(other instanceof ActSetBBNumber))
             return false;
         ActSetBBNumber o = (ActSetBBNumber) other;
-        return bbKey.equals(o.bbKey) && value.equals(o.value);
+        return bbKey.equals(o.bbKey) && value.equals(o.value) && note.equals(o.note);
     }
 
     @Override
     public String toString() {
-        return "ActSetBBNumber(" + bbKey + "," + value + ")";
+        return "ActSetBBNumber(" + bbKey + "," + value + "," + note + ")";
     }
 
     @Override

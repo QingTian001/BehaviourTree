@@ -2,9 +2,7 @@
 	"id":5,
 	"name":"测试decorator",
 	"objType":6,
-	"params":[
-		
-	],
+	"params":[],
 	"returnValue":{
 		"bbType":1,
 		"bbKey":"",
@@ -30,7 +28,8 @@
 					"value":10,
 					"$type":"behaviour.ExpNumber.ConstInteger"
 				},
-				"$type":"behaviour.Node.ActSetBBNumber"
+				"$type":"behaviour.Node.ActSetBBNumber",
+				"note":""
 			},
 			{
 				"validOnFinish":true,
@@ -39,20 +38,25 @@
 						"value":100,
 						"$type":"behaviour.ExpNumber.ConstInteger"
 					},
-					"$type":"behaviour.Node.WaitTimeMs"
+					"$type":"behaviour.Node.ActWaitTimeMs"
 				},
 				"msg":"wait time finish",
-				"$type":"behaviour.Node.Log"
+				"$type":"behaviour.Node.DecLog"
 			},
 			{
 				"timeMs":{
 					"value":1000,
 					"$type":"behaviour.ExpNumber.ConstInteger"
 				},
-				"$type":"behaviour.Node.WaitTimeMs"
+				"$type":"behaviour.Node.ActWaitTimeMs"
 			}
 		],
-		"$type":"behaviour.Node.Sequence"
+		"$type":"behaviour.Node.CompSequence",
+		"enterActions":[],
+		"cleanActions":[],
+		"note":""
 	},
-	"$type":"behaviour.behaviour"
+	"$type":"behaviour.behaviour",
+	"debug":false,
+	"note":""
 }

@@ -1,6 +1,7 @@
 package config.behaviour.expnumber;
 
-public class ConstLong implements config.behaviour.ExpNumber {
+// ConstLong
+public final class ConstLong implements config.behaviour.expnumber.ExpNumber {
     @Override
     public config.behaviour.Expnumberenum type() {
         return config.behaviour.Expnumberenum.CONSTLONG;

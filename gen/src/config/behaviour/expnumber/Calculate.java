@@ -1,20 +1,21 @@
 package config.behaviour.expnumber;
 
-public class Calculate implements config.behaviour.ExpNumber {
+// Calculate
+public final class Calculate implements config.behaviour.expnumber.ExpNumber {
     @Override
     public config.behaviour.Expnumberenum type() {
         return config.behaviour.Expnumberenum.CALCULATE;
     }
 
-    private config.behaviour.ExpNumber left;
-    private config.behaviour.ExpNumber right;
+    private config.behaviour.expnumber.ExpNumber left;
+    private config.behaviour.expnumber.ExpNumber right;
     private int calculator;
     private config.behaviour.Calculatorenum RefCalculator;
 
     private Calculate() {
     }
 
-    public Calculate(config.behaviour.ExpNumber left, config.behaviour.ExpNumber right, int calculator) {
+    public Calculate(config.behaviour.expnumber.ExpNumber left, config.behaviour.expnumber.ExpNumber right, int calculator) {
         this.left = left;
         this.right = right;
         this.calculator = calculator;
@@ -22,17 +23,17 @@ public class Calculate implements config.behaviour.ExpNumber {
 
     public static Calculate _create(configgen.genjava.ConfigInput input) {
         Calculate self = new Calculate();
-        self.left = config.behaviour.ExpNumber._create(input);
-        self.right = config.behaviour.ExpNumber._create(input);
+        self.left = config.behaviour.expnumber.ExpNumber._create(input);
+        self.right = config.behaviour.expnumber.ExpNumber._create(input);
         self.calculator = input.readInt();
         return self;
     }
 
-    public config.behaviour.ExpNumber getLeft() {
+    public config.behaviour.expnumber.ExpNumber getLeft() {
         return left;
     }
 
-    public config.behaviour.ExpNumber getRight() {
+    public config.behaviour.expnumber.ExpNumber getRight() {
         return right;
     }
 
@@ -62,12 +63,16 @@ public class Calculate implements config.behaviour.ExpNumber {
         return "Calculate(" + left + "," + right + "," + calculator + ")";
     }
 
+    public void _resolveDirect(config.ConfigMgr mgr) {
+        RefCalculator = config.behaviour.Calculatorenum.get(calculator);
+        configgen.genjava.LoadValueErrs.requireNonNull(RefCalculator, "Calculate.calculator -> behaviour.calculatorenum", calculator);
+    }
+
     @Override
     public void _resolve(config.ConfigMgr mgr) {
         left._resolve(mgr);
         right._resolve(mgr);
-        RefCalculator = config.behaviour.Calculatorenum.get(calculator);
-        java.util.Objects.requireNonNull(RefCalculator);
+        _resolveDirect(mgr);
     }
 
 }

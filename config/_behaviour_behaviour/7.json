@@ -37,7 +37,8 @@
 							"comarator":1,
 							"$type":"behaviour.Condition.Compare"
 						},
-						"$type":"behaviour.Node.NodeCondition"
+						"$type":"behaviour.Node.ActCondition",
+						"note":""
 					},
 					{
 						"bbKey":"ret",
@@ -45,10 +46,14 @@
 							"value":1,
 							"$type":"behaviour.ExpNumber.ConstInteger"
 						},
-						"$type":"behaviour.Node.ActSetBBNumber"
+						"$type":"behaviour.Node.ActSetBBNumber",
+						"note":""
 					}
 				],
-				"$type":"behaviour.Node.Sequence"
+				"$type":"behaviour.Node.CompSequence",
+				"enterActions":[],
+				"cleanActions":[],
+				"note":""
 			},
 			{
 				"precond":{
@@ -68,7 +73,8 @@
 							"comarator":1,
 							"$type":"behaviour.Condition.Compare"
 						},
-						"$type":"behaviour.Node.NodeCondition"
+						"$type":"behaviour.Node.ActCondition",
+						"note":""
 					},
 					{
 						"bbKey":"ret",
@@ -76,10 +82,14 @@
 							"value":2,
 							"$type":"behaviour.ExpNumber.ConstInteger"
 						},
-						"$type":"behaviour.Node.ActSetBBNumber"
+						"$type":"behaviour.Node.ActSetBBNumber",
+						"note":""
 					}
 				],
-				"$type":"behaviour.Node.Sequence"
+				"$type":"behaviour.Node.CompSequence",
+				"enterActions":[],
+				"cleanActions":[],
+				"note":""
 			},
 			{
 				"precond":{
@@ -100,7 +110,8 @@
 							"calculator":2,
 							"$type":"behaviour.ExpNumber.Calculate"
 						},
-						"$type":"behaviour.Node.ActSetBBNumber"
+						"$type":"behaviour.Node.ActSetBBNumber",
+						"note":""
 					},
 					{
 						"subTreeId":7,
@@ -108,7 +119,8 @@
 							"n1"
 						],
 						"returnValueBBKey":"r1",
-						"$type":"behaviour.Node.SubTree"
+						"$type":"behaviour.Node.SubTree",
+						"note":""
 					},
 					{
 						"bbKey":"n2",
@@ -124,7 +136,8 @@
 							"calculator":2,
 							"$type":"behaviour.ExpNumber.Calculate"
 						},
-						"$type":"behaviour.Node.ActSetBBNumber"
+						"$type":"behaviour.Node.ActSetBBNumber",
+						"note":""
 					},
 					{
 						"subTreeId":7,
@@ -132,7 +145,8 @@
 							"n2"
 						],
 						"returnValueBBKey":"r2",
-						"$type":"behaviour.Node.SubTree"
+						"$type":"behaviour.Node.SubTree",
+						"note":""
 					},
 					{
 						"bbKey":"ret",
@@ -148,13 +162,22 @@
 							"calculator":1,
 							"$type":"behaviour.ExpNumber.Calculate"
 						},
-						"$type":"behaviour.Node.ActSetBBNumber"
+						"$type":"behaviour.Node.ActSetBBNumber",
+						"note":""
 					}
 				],
-				"$type":"behaviour.Node.Sequence"
+				"$type":"behaviour.Node.CompSequence",
+				"enterActions":[],
+				"cleanActions":[],
+				"note":""
 			}
 		],
-		"$type":"behaviour.Node.Selector"
+		"$type":"behaviour.Node.CompSelector",
+		"enterActions":[],
+		"cleanActions":[],
+		"note":""
 	},
-	"$type":"behaviour.behaviour"
+	"$type":"behaviour.behaviour",
+	"debug":false,
+	"note":""
 }

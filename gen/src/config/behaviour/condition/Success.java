@@ -1,6 +1,7 @@
 package config.behaviour.condition;
 
-public class Success implements config.behaviour.Condition {
+// Success
+public final class Success implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.SUCCESS;
@@ -22,7 +23,7 @@ public class Success implements config.behaviour.Condition {
 
     @Override
     public boolean equals(Object other) {
-        return this == other || other instanceof Success;
+        return other instanceof Success;
     }
 
     @Override

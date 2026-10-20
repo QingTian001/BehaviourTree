@@ -1,0 +1,7 @@
+2026-10-20 15:39:13,956  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompSequence
+2026-10-20 15:39:13,957  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompSelector
+2026-10-20 15:39:13,959  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompParallel
+2026-10-20 15:39:13,963  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompIntSwitchCase
+2026-10-20 15:39:13,965  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompWeightSelector
+2026-10-20 15:39:13,968  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompCondWeightSelector
+2026-10-20 15:39:13,970  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompParamWeightSelector

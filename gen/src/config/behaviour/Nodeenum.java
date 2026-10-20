@@ -1,34 +1,54 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[nodeenum]
 public enum Nodeenum {
     SUBTREE("SubTree", 1),
-    SUCCESS("Success", 2),
-    FAILURE("Failure", 3),
-    ENDTREE("EndTree", 4),
-    WAITTIMEMS("WaitTimeMs", 5),
-    NODENOT("NodeNot", 6),
-    LOG("Log", 7),
-    LOOP("Loop", 8),
-    LOOPUTIL("LoopUtil", 9),
-    NODECONDITION("NodeCondition", 10),
-    SEQUENCE("Sequence", 11),
-    SELECTOR("Selector", 12),
-    PARALLEL("Parallel", 13),
-    TIMED("Timed", 14),
-    ACTDEBUGLOG("ActDebugLog", 15),
+    DECSUCCESS("DecSuccess", 2),
+    DECFAILURE("DecFailure", 3),
+    ACTRETURNSTATUS("ActReturnStatus", 4),
+    ACTWAITTIMEMS("ActWaitTimeMs", 5),
+    DECNOT("DecNot", 6),
+    DECLOG("DecLog", 7),
+    DECLOOP("DecLoop", 8),
+    DECLOOPUTIL("DecLoopUtil", 9),
+    ACTCONDITION("ActCondition", 10),
+    COMPSEQUENCE("CompSequence", 11),
+    COMPSELECTOR("CompSelector", 12),
+    COMPPARALLEL("CompParallel", 13),
+    DECTIMED("DecTimed", 14),
+    ACTDEBUGMSG("ActDebugMsg", 15),
     ACTSETBBNUMBER("ActSetBBNumber", 16),
     ACTSETBBOBJ("ActSetBBObj", 17),
-    ACTSETBBSTR("ActSetBBStr", 18);
+    ACTSETBBSTR("ActSetBBStr", 18),
+    ACTWAITRANDOMTIMEMS("ActWaitRandomTimeMs", 19),
+    DECCONDITION("DecCondition", 20),
+    COMPINTSWITCHCASE("CompIntSwitchCase", 21),
+    COMPWEIGHTSELECTOR("CompWeightSelector", 22),
+    COMPCONDWEIGHTSELECTOR("CompCondWeightSelector", 23),
+    COMPPARAMWEIGHTSELECTOR("CompParamWeightSelector", 24),
+    COMPREPEATUTIL("CompRepeatUtil", 25),
+    ACTSETBBNUMBERIFNULL("ActSetBBNumberIfNull", 26),
+    ACTSETBBVECTOR3("ActSetBBVector3", 27),
+    ACTWALKTOPOS("ActWalkToPos", 28),
+    ACTWALKTOPOSWITHDIR("ActWalkToPosWithDir", 29),
+    ACTMOVESTOP("ActMoveStop", 30),
+    ACTCHANGEDIR("ActChangeDir", 31),
+    ACTFACETOENTITY("ActFaceToEntity", 32),
+    ACTINTERACTIONENTER("ActInteractionEnter", 33),
+    ACTINTERACTIONEXIT("ActInteractionExit", 34),
+    ACTFINDNONEPLAYERENTITY("ActFindNonePlayerEntity", 35),
+    ACTFINDSUMMONOWNER("ActFindSummonOwner", 36);
 
     private final String name;
     private final int value;
+    private volatile config.behaviour.Nodeenum_Detail ref;
 
     Nodeenum(String name, int value) {
         this.name = name;
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Nodeenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Nodeenum> map = new java.util.HashMap<>();
 
     static {
         for(Nodeenum e : Nodeenum.values()) {
@@ -55,15 +75,25 @@ public enum Nodeenum {
      * 节点类型(编辑器显示使用,不参与逻辑)
      */
     public int getNodeType() {
-        return ref().getNodeType();
+        return ref.getNodeType();
     }
 
     public config.behaviour.Nodetypeenum refNodeType() {
-        return ref().refNodeType();
+        return ref.refNodeType();
     }
 
     public config.behaviour.Nodeenum_Detail ref() {
-        return config.behaviour.Nodeenum_Detail.get(value);
+        return ref;
     }
 
+    void setRef(config.ConfigMgr mgr) {
+        ref = mgr.behaviour_nodeenum_All.get(value);
+        configgen.genjava.LoadValueErrs.requireNonNull(ref, "behaviour.nodeenum.setRef", value);
+    }
+
+    public static void setAllRefs(config.ConfigMgr mgr) {
+        for(Nodeenum e : Nodeenum.values()) {
+            e.setRef(mgr);
+        }
+    }
 }

@@ -1,34 +1,35 @@
 package config.behaviour.condition;
 
-public class And implements config.behaviour.Condition {
+// And
+public final class And implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.AND;
     }
 
-    private config.behaviour.Condition cond1;
-    private config.behaviour.Condition cond2;
+    private config.behaviour.condition.Condition cond1;
+    private config.behaviour.condition.Condition cond2;
 
     private And() {
     }
 
-    public And(config.behaviour.Condition cond1, config.behaviour.Condition cond2) {
+    public And(config.behaviour.condition.Condition cond1, config.behaviour.condition.Condition cond2) {
         this.cond1 = cond1;
         this.cond2 = cond2;
     }
 
     public static And _create(configgen.genjava.ConfigInput input) {
         And self = new And();
-        self.cond1 = config.behaviour.Condition._create(input);
-        self.cond2 = config.behaviour.Condition._create(input);
+        self.cond1 = config.behaviour.condition.Condition._create(input);
+        self.cond2 = config.behaviour.condition.Condition._create(input);
         return self;
     }
 
-    public config.behaviour.Condition getCond1() {
+    public config.behaviour.condition.Condition getCond1() {
         return cond1;
     }
 
-    public config.behaviour.Condition getCond2() {
+    public config.behaviour.condition.Condition getCond2() {
         return cond2;
     }
 

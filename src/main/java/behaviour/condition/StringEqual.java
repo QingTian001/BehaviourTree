@@ -1,46 +1,32 @@
 package behaviour.condition;
 
-import config.behaviour.condition.StrEqual;
 import behaviour.BehaviourFactory;
-import behaviour.BehaviourTree;
 import behaviour.expression.ExpressionString;
 
-public class StringEqual extends Condition<StrEqual> {
+/**
+ * StringEqual condition - Flyweight pattern.
+ * Checks if two string expressions are equal.
+ */
+public class StringEqual extends Condition<config.behaviour.condition.StrEqual> {
 
-    private ExpressionString<? extends config.behaviour.ExpStr> leftExprStr = null;
-    private ExpressionString<? extends config.behaviour.ExpStr> rightExprStr = null;
+    private ExpressionString<? extends config.behaviour.expstr.ExpStr> leftExprStr = null;
+    private ExpressionString<? extends config.behaviour.expstr.ExpStr> rightExprStr = null;
 
-    public StringEqual(BehaviourTree behaviourTree, config.behaviour.Condition condCfg, Condition<? extends config.behaviour.Condition> parent) {
-        super(behaviourTree, condCfg, parent);
+    public StringEqual(config.behaviour.condition.StrEqual atomCfg) {
+        super(atomCfg);
     }
 
-
-    @Override
-    public boolean calculateConditionResult() {
-        String left = leftExprStr.calculateExpression();
-        String right = rightExprStr.calculateExpression();
-        return left.equals(right);
+    public ExpressionString<? extends config.behaviour.expstr.ExpStr> getLeftExprStr() {
+        return leftExprStr;
     }
 
-    @Override
-    public boolean calculateConditionResultAndListenEvent() {
-        String left = leftExprStr.calculateExpressionAndListenEvent();
-        String right = rightExprStr.calculateExpressionAndListenEvent();
-        return left.equals(right);
-    }
-
-    @Override
-    public void reset(boolean recursive) {
-        super.reset(recursive);
-        leftExprStr.reset();
-        rightExprStr.reset();
+    public ExpressionString<? extends config.behaviour.expstr.ExpStr> getRightExprStr() {
+        return rightExprStr;
     }
 
     @Override
     public void loadFromCfg() {
-        StrEqual strEqualCfg = getCondCfg();
-
-        leftExprStr = BehaviourFactory.createExpression(this.getBehaviourTree(), strEqualCfg.getLeft(), this);
-        rightExprStr = BehaviourFactory.createExpression(this.getBehaviourTree(), strEqualCfg.getRight(), this);
+        leftExprStr = BehaviourFactory.createExpression(getAtomCfg().getLeft());
+        rightExprStr = BehaviourFactory.createExpression(getAtomCfg().getRight());
     }
 }

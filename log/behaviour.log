@@ -1,0 +1,98 @@
+2026-10-20 15:39:13,936  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:1, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:13,956  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompSequence
+2026-10-20 15:39:13,957  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompSelector
+2026-10-20 15:39:13,959  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompParallel
+2026-10-20 15:39:13,963  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompIntSwitchCase
+2026-10-20 15:39:13,965  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompWeightSelector
+2026-10-20 15:39:13,968  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompCondWeightSelector
+2026-10-20 15:39:13,970  WARN [Test worker] BehaviourTree No child nodes found for Composite: CompParamWeightSelector
+2026-10-20 15:39:14,008  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:1, treeTaskInstId:2, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,011 DEBUG [Test worker] ActDebugMsg hello world
+2026-10-20 15:39:14,013  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:2, treeTaskInstId:3, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,014  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:3, treeTaskInstId:4, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,016 DEBUG [Test worker] ActDebugMsg hello world
+2026-10-20 15:39:14,016  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:4, treeTaskInstId:5, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,017 DEBUG [Test worker] ActDebugMsg Sequence waittimems finish
+2026-10-20 15:39:14,017  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:5, treeTaskInstId:6, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,019  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:6, treeTaskInstId:7, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,019 DEBUG [Test worker] ActDebugMsg hello world
+2026-10-20 15:39:14,020  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:8, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,021  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:9, parrentInstanceId:8, parentId:1982495669875039725
+2026-10-20 15:39:14,022  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:10, parrentInstanceId:9, parentId:1982495669875039725
+2026-10-20 15:39:14,023  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:11, parrentInstanceId:10, parentId:1982495669875039725
+2026-10-20 15:39:14,024  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:12, parrentInstanceId:11, parentId:1982495669875039725
+2026-10-20 15:39:14,025  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:13, parrentInstanceId:11, parentId:-4308287699935431517
+2026-10-20 15:39:14,026  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:14, parrentInstanceId:10, parentId:-4308287699935431517
+2026-10-20 15:39:14,027  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:15, parrentInstanceId:9, parentId:-4308287699935431517
+2026-10-20 15:39:14,028  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:16, parrentInstanceId:15, parentId:1982495669875039725
+2026-10-20 15:39:14,029  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:17, parrentInstanceId:15, parentId:-4308287699935431517
+2026-10-20 15:39:14,031  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:18, parrentInstanceId:8, parentId:-4308287699935431517
+2026-10-20 15:39:14,032  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:19, parrentInstanceId:18, parentId:1982495669875039725
+2026-10-20 15:39:14,033  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:20, parrentInstanceId:19, parentId:1982495669875039725
+2026-10-20 15:39:14,034  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:21, parrentInstanceId:19, parentId:-4308287699935431517
+2026-10-20 15:39:14,036  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:22, parrentInstanceId:18, parentId:-4308287699935431517
+2026-10-20 15:39:14,039  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:23, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,040  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:8, treeTaskInstId:24, parrentInstanceId:23, parentId:-2805579767643641114
+2026-10-20 15:39:14,040  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:8, treeTaskInstId:25, parrentInstanceId:23, parentId:-2805579767643641114
+2026-10-20 15:39:14,042  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:8, treeTaskInstId:26, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,048  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:27, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,050  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:28, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,052  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:29, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,054  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,057  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:30, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,057  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,058  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,060  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:31, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,062  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:32, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,063  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,063  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,064  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,064  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,065  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:33, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,067  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:34, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,068  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:35, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,068  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,069  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,069  INFO [Test worker] BlackBoard register listener for bbKey: target, entityInstId:1
+2026-10-20 15:39:14,071  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:36, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,072  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:37, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,075  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:38, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,075  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:2, treeCfgId:10001, treeTaskInstId:39, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,077  INFO [Test worker] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:10001, treeTaskInstId:40, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:14,195  INFO [Test worker] BlackBoard register listener for bbKey: mood, entityInstId:null
+2026-10-20 15:39:14,199  INFO [Test worker] BlackBoard register listener for bbKey: mood, entityInstId:null
+2026-10-20 15:39:14,201  INFO [Test worker] BlackBoard register listener for bbKey: score, entityInstId:null
+2026-10-20 15:39:15,301  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:8, treeTaskInstId:1, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:15,309  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:9, treeTaskInstId:2, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:15,309  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:3, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:15,312  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:4, parrentInstanceId:3, parentId:1982495669875039725
+2026-10-20 15:39:15,314  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:5, parrentInstanceId:4, parentId:1982495669875039725
+2026-10-20 15:39:15,315  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:6, parrentInstanceId:5, parentId:1982495669875039725
+2026-10-20 15:39:15,316  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:7, parrentInstanceId:6, parentId:1982495669875039725
+2026-10-20 15:39:15,317  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:8, parrentInstanceId:6, parentId:-4308287699935431517
+2026-10-20 15:39:15,319  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:9, parrentInstanceId:5, parentId:-4308287699935431517
+2026-10-20 15:39:15,320  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:10, parrentInstanceId:4, parentId:-4308287699935431517
+2026-10-20 15:39:15,321  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:11, parrentInstanceId:10, parentId:1982495669875039725
+2026-10-20 15:39:15,322  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:12, parrentInstanceId:10, parentId:-4308287699935431517
+2026-10-20 15:39:15,324  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:13, parrentInstanceId:3, parentId:-4308287699935431517
+2026-10-20 15:39:15,325  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:14, parrentInstanceId:13, parentId:1982495669875039725
+2026-10-20 15:39:15,326  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:15, parrentInstanceId:14, parentId:1982495669875039725
+2026-10-20 15:39:15,327  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:16, parrentInstanceId:14, parentId:-4308287699935431517
+2026-10-20 15:39:15,328  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:17, parrentInstanceId:13, parentId:-4308287699935431517
+2026-10-20 15:39:16,162  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:8, treeTaskInstId:1, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:16,169  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:9, treeTaskInstId:2, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:16,169  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:3, parrentInstanceId:0, parentId:0
+2026-10-20 15:39:16,172  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:4, parrentInstanceId:3, parentId:1982495669875039725
+2026-10-20 15:39:16,173  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:5, parrentInstanceId:4, parentId:1982495669875039725
+2026-10-20 15:39:16,174  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:6, parrentInstanceId:5, parentId:1982495669875039725
+2026-10-20 15:39:16,175  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:7, parrentInstanceId:6, parentId:1982495669875039725
+2026-10-20 15:39:16,177  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:8, parrentInstanceId:6, parentId:-4308287699935431517
+2026-10-20 15:39:16,178  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:9, parrentInstanceId:5, parentId:-4308287699935431517
+2026-10-20 15:39:16,179  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:10, parrentInstanceId:4, parentId:-4308287699935431517
+2026-10-20 15:39:16,180  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:11, parrentInstanceId:10, parentId:1982495669875039725
+2026-10-20 15:39:16,181  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:12, parrentInstanceId:10, parentId:-4308287699935431517
+2026-10-20 15:39:16,182  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:13, parrentInstanceId:3, parentId:-4308287699935431517
+2026-10-20 15:39:16,183  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:14, parrentInstanceId:13, parentId:1982495669875039725
+2026-10-20 15:39:16,184  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:15, parrentInstanceId:14, parentId:1982495669875039725
+2026-10-20 15:39:16,185  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:16, parrentInstanceId:14, parentId:-4308287699935431517
+2026-10-20 15:39:16,186  INFO [main] BehaviourTree Creating behaviour tree runtime for entity:1, treeCfgId:7, treeTaskInstId:17, parrentInstanceId:13, parentId:-4308287699935431517

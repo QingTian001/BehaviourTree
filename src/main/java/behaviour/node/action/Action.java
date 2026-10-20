@@ -1,11 +1,14 @@
 package behaviour.node.action;
 
-import behaviour.BehaviourTree;
 import behaviour.node.Node;
 
-public abstract class Action<T extends config.behaviour.Node> extends Node<T> {
-    public Action(BehaviourTree behaviourTree, config.behaviour.Node nodeCfg) {
-        super(behaviourTree, nodeCfg);
-    }
+/**
+ * Action base class - Flyweight pattern.
+ * Static configuration only. Runtime state in ActionTask.
+ */
+public abstract class Action<T extends config.behaviour.node.Node> extends Node<T> {
 
+    public Action(T atomCfg) {
+        super(atomCfg);
+    }
 }

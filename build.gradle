@@ -19,7 +19,7 @@ sourceSets {
     }
     test {
         java {
-            srcDirs = ['src/test/java','gen/src']
+            srcDirs = ['src/test/java']
         }
     }
 }
@@ -27,5 +27,28 @@ sourceSets {
 dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
 }
 
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('runExample', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'BehaviourExample'
+}
+
+tasks.register('verifyJarExample', JavaExec) {
+    dependsOn jar, testClasses
+    classpath = files(tasks.named('jar').flatMap { it.archiveFile }) + sourceSets.test.output + configurations.testRuntimeClasspath
+    mainClass = 'BehaviourExample'
+}

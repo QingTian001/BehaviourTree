@@ -1,75 +1,74 @@
 package behaviour.expression;
 
 import behaviour.GEntity;
-import event.MapObjectEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import behaviour.BehaviourListenerManager;
-import behaviour.BehaviourTree;
-import behaviour.condition.Condition;
-
-
+import behaviour.Atom;
+import behaviour.BehaviourContext;
+import behaviour.BehaviourFactory;
+import behaviour.executor.expression.ExpressionExecutor;
+import behaviour.runtime.ExpressionRuntime;
+import behaviour.task.BehaviourTask;
+import behaviour.task.ConditionTask;
+import behaviour.task.ExpressionTask;
 
 /**
- * Created by zyao on 2023/12/20 17:52
+ * Expression base class - Flyweight pattern.
+ * Two calculation modes:
+ * 1. Normal: calculate(BehaviourContext) - no Task created
+ * 2. PreCond: calculateAndListenEvent(ExpressionTask) - Task for event listening
+ *
+ * Delegates calculation to executor and logs the result.
  */
-public abstract class Expression<T, V> {
-    private static final Logger logger = LogManager.getLogger(Expression.class);
-    private final T exprCfg;
-    // 由Condition使用的时候会设置Condition
-    private final Condition<? extends config.behaviour.Condition> condition;
-    private final BehaviourListenerManager listenerManager;
-    public final BehaviourTree behaviourTree;
+public abstract class Expression<T, V> extends Atom<T> {
 
-    public Expression(BehaviourTree behaviourTree, T exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        this.exprCfg = exprCfg;
-        this.condition = condition;
-        this.behaviourTree = behaviourTree;
-        this.listenerManager = BehaviourListenerManager.createBehaviourListenerManager(condition);
+    public Expression(T atomCfg) {
+        super(atomCfg);
     }
 
-    public final V calculateExpression() {
-        V value = internalCalculateExpression();
-        logger.debug("calculateExpression. class:{}, ret = {}", this.getClass().getSimpleName(), value);
-        return value;
+    /**
+     * Normal calculation - no runtime object needed.
+     * Delegates to executor and logs result.
+     */
+    public final V calculate(BehaviourContext context) {
+        @SuppressWarnings("unchecked")
+        V ret = (V) getExecutor(ExpressionExecutor.class).calculate(context);
+        context.getBehaviourTreeTask().log(org.apache.logging.log4j.Level.DEBUG,
+            this.getClass(),
+            getLogHead(context) + "; calculateExpressionResult. expr:{}, ret:{}",
+            this.getClass().getSimpleName(), ret);
+        return ret;
     }
 
-    public final V calculateExpressionAndListenEvent() {
-        V value = internalCalculateExpressionAndListenEvent();
-        logger.debug("calculateExpressionAndListenEvent. class:{}, ret = {}", this.getClass().getSimpleName(), value);
-        return value;
+    /**
+     * Calculation with event listening - for preCond usage.
+     * Delegates to executor and logs result.
+     */
+    public final V calculateAndListenEvent(ExpressionTask<V> task) {
+        @SuppressWarnings("unchecked")
+        V ret = (V) task.requireExecutor(ExpressionExecutor.class).calculateAndListenEvent(task);
+        task.getContext().getBehaviourTreeTask().log(org.apache.logging.log4j.Level.DEBUG,
+            this.getClass(),
+            getLogHead(task.getContext()) + "; calculateExpressionResultAndListenEvent. expr:{}, ret:{}",
+            this.getClass().getSimpleName(), ret);
+        return ret;
     }
 
-    protected abstract V internalCalculateExpression();
-
-    protected abstract V internalCalculateExpressionAndListenEvent();
-
-    public BehaviourTree getBehaviourTree() {
-        return behaviourTree;
+    public <R extends ExpressionRuntime<V>> R createRuntime(ConditionTask parent, BehaviourContext context, Class<R> runtimeClass) {
+        return BehaviourFactory.instantiateExpressionRuntime(this, parent, context, runtimeClass);
     }
 
-    public final T getExprCfg() {
-        return exprCfg;
+    /**
+     * Get log head prefix for logging.
+     * (Same implementation as in Condition.java)
+     */
+    protected String getLogHead(BehaviourContext context) {
+        GEntity self = context.getSelf();
+        return String.format("path:%s (#%s), entityInstId:%d, behaviourCfgId:%d",
+            getPath(), getPathIdHex(), self == null ? 0 : self.getInstanceId(), context.getBehaviourTreeTask().getId());
     }
 
-    public final Condition<? extends config.behaviour.Condition> getCondition() {
-        return condition;
-    }
-    protected final <Event extends MapObjectEvent> void registerMapObjectEvent(GEntity entity, Class<Event> eventClazz) {
-        if (listenerManager == null) {
-            throw new RuntimeException("condtion must be not null");
-        }
-        logger.info("registerMapObjectEvent. class:{}, entity:{}, eventClazz:{}", this.getClass().getSimpleName(), entity, eventClazz);
-        listenerManager.registerMapObjectEvent(entity, eventClazz);
+    @Override
+    public ExpressionTask<V> createRuntime(BehaviourTask<?> parent, BehaviourContext context) {
+        return createRuntime((ConditionTask) parent, context, ExpressionTask.class);
     }
 
-    @SuppressWarnings("unchecked")
-    public void reset() {
-        listenerManager.onReset();
-    }
-
-    public void loadFromCfg() {
-
-    }
 }

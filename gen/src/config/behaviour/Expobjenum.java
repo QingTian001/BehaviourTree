@@ -1,7 +1,13 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[expobjenum]
 public enum Expobjenum {
-    GETBBOBJ("getBBObj", 1);
+    GETBBOBJ("GetBBObj", 1),
+    GETENTITYSELF("GetEntitySelf", 2),
+    OBJNULL("ObjNull", 3),
+    GETBBENTITY("GetBBEntity", 4),
+    GETENTITYBYINSTID("GetEntityByInstId", 5),
+    CONSTBOOLEAN("ConstBoolean", 6);
 
     private final String name;
     private final int value;
@@ -11,7 +17,7 @@ public enum Expobjenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Expobjenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Expobjenum> map = new java.util.HashMap<>();
 
     static {
         for(Expobjenum e : Expobjenum.values()) {

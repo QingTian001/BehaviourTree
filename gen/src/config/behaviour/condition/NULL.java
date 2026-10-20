@@ -1,6 +1,7 @@
 package config.behaviour.condition;
 
-public class NULL implements config.behaviour.Condition {
+// NULL
+public final class NULL implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.NULL;
@@ -22,7 +23,7 @@ public class NULL implements config.behaviour.Condition {
 
     @Override
     public boolean equals(Object other) {
-        return this == other || other instanceof NULL;
+        return other instanceof NULL;
     }
 
     @Override

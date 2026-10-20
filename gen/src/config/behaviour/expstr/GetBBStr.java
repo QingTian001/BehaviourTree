@@ -1,6 +1,7 @@
 package config.behaviour.expstr;
 
-public class GetBBStr implements config.behaviour.ExpStr {
+// GetBBStr
+public final class GetBBStr implements config.behaviour.expstr.ExpStr {
     @Override
     public config.behaviour.Expstrenum type() {
         return config.behaviour.Expstrenum.GETBBSTR;
@@ -17,7 +18,7 @@ public class GetBBStr implements config.behaviour.ExpStr {
 
     public static GetBBStr _create(configgen.genjava.ConfigInput input) {
         GetBBStr self = new GetBBStr();
-        self.bbKey = input.readStr();
+        self.bbKey = input.readStringInPool();
         return self;
     }
 

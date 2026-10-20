@@ -1,0 +1,23 @@
+{
+	"id":9,
+	"name":"查找对象示例",
+	"objType":0,
+	"debug":false,
+	"params":[],
+	"returnValue":{
+		"bbType":1,
+		"bbKey":"",
+		"$type":"behaviour.BBParam"
+	},
+	"node":{
+		"objType":9,
+		"cfgIdList":[
+			1001
+		],
+		"radius":20.0,
+		"wbbKeyEntity":"target",
+		"$type":"behaviour.Node.ActFindNonePlayerEntity"
+	},
+	"note":"由BehaviourExample提供测试宿主运行",
+	"$type":"behaviour.behaviour"
+}

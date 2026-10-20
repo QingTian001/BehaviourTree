@@ -2,9 +2,7 @@
 	"id":1,
 	"name":"测试",
 	"objType":6,
-	"params":[
-		
-	],
+	"params":[],
 	"returnValue":{
 		"bbType":1,
 		"bbKey":"",
@@ -19,14 +17,24 @@
 				"cond":{
 					"$type":"behaviour.Condition.Success"
 				},
-				"$type":"behaviour.Node.NodeCondition"
+				"$type":"behaviour.Node.ActCondition",
+				"note":""
 			},
 			{
-				"msg":"hello world",
-				"$type":"behaviour.Node.ActDebugLog"
+				"msg":{
+					"$type":"behaviour.ExpStr.Const",
+					"value":"hello world"
+				},
+				"$type":"behaviour.Node.ActDebugMsg",
+				"params":[]
 			}
 		],
-		"$type":"behaviour.Node.Sequence"
+		"$type":"behaviour.Node.CompSequence",
+		"enterActions":[],
+		"cleanActions":[],
+		"note":""
 	},
-	"$type":"behaviour.behaviour"
+	"$type":"behaviour.behaviour",
+	"debug":false,
+	"note":""
 }

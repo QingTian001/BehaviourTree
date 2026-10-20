@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[nodetypeenum]
 public enum Nodetypeenum {
     ACTION("Action", 1),
     COMPOSITE("Composite", 2),
@@ -14,7 +15,7 @@ public enum Nodetypeenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Nodetypeenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Nodetypeenum> map = new java.util.HashMap<>();
 
     static {
         for(Nodetypeenum e : Nodetypeenum.values()) {

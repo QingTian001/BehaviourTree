@@ -1,5 +1,6 @@
 package config.behaviour;
 
+// 来自：behaviour/behaviourEnum.xlsx[compareenum]
 public enum Compareenum {
     EQUAL("Equal", 1),
     LESS("Less", 2),
@@ -15,7 +16,7 @@ public enum Compareenum {
         this.value = value;
     }
 
-    private static final java.util.Map<Integer, Compareenum> map = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, Compareenum> map = new java.util.HashMap<>();
 
     static {
         for(Compareenum e : Compareenum.values()) {

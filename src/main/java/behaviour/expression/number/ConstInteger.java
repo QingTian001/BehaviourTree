@@ -1,24 +1,19 @@
 package behaviour.expression.number;
-import behaviour.BehaviourHelper;
-import behaviour.BehaviourTree;
-import behaviour.condition.Condition;
+
 import behaviour.expression.ExpressionNumber;
 
 /**
- * Created by zyao on 2023/12/28 14:46
+ * Constant integer expression.
+ * Flyweight pattern - logic here, no runtime state.
  */
 public class ConstInteger extends ExpressionNumber<config.behaviour.expnumber.ConstInteger> {
-    @SuppressWarnings("unchecked")
-    public ConstInteger(BehaviourTree behaviourTree, config.behaviour.expnumber.ConstInteger exprCfg, Condition<? extends config.behaviour.Condition> condition) {
-        super(behaviourTree, exprCfg, condition);
+
+    public ConstInteger(config.behaviour.expnumber.ConstInteger atomCfg) {
+        super(atomCfg);
     }
 
-    protected Double internalCalculateExpression() {
-        return BehaviourHelper.convertToDouble(getExprCfg().getValue());
+    @Override
+    public void loadFromCfg() {
+        // No child expressions to load
     }
-
-    protected Double internalCalculateExpressionAndListenEvent() {
-        return BehaviourHelper.convertToDouble(getExprCfg().getValue());
-    }
-
 }

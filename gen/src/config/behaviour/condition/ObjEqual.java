@@ -1,34 +1,35 @@
 package config.behaviour.condition;
 
-public class ObjEqual implements config.behaviour.Condition {
+// ObjEqual
+public final class ObjEqual implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.OBJEQUAL;
     }
 
-    private config.behaviour.ExpObj left;
-    private config.behaviour.ExpObj right;
+    private config.behaviour.expobj.ExpObj left;
+    private config.behaviour.expobj.ExpObj right;
 
     private ObjEqual() {
     }
 
-    public ObjEqual(config.behaviour.ExpObj left, config.behaviour.ExpObj right) {
+    public ObjEqual(config.behaviour.expobj.ExpObj left, config.behaviour.expobj.ExpObj right) {
         this.left = left;
         this.right = right;
     }
 
     public static ObjEqual _create(configgen.genjava.ConfigInput input) {
         ObjEqual self = new ObjEqual();
-        self.left = config.behaviour.ExpObj._create(input);
-        self.right = config.behaviour.ExpObj._create(input);
+        self.left = config.behaviour.expobj.ExpObj._create(input);
+        self.right = config.behaviour.expobj.ExpObj._create(input);
         return self;
     }
 
-    public config.behaviour.ExpObj getLeft() {
+    public config.behaviour.expobj.ExpObj getLeft() {
         return left;
     }
 
-    public config.behaviour.ExpObj getRight() {
+    public config.behaviour.expobj.ExpObj getRight() {
         return right;
     }
 
@@ -48,6 +49,12 @@ public class ObjEqual implements config.behaviour.Condition {
     @Override
     public String toString() {
         return "ObjEqual(" + left + "," + right + ")";
+    }
+
+    @Override
+    public void _resolve(config.ConfigMgr mgr) {
+        left._resolve(mgr);
+        right._resolve(mgr);
     }
 
 }

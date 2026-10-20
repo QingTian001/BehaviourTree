@@ -1,34 +1,35 @@
 package config.behaviour.condition;
 
-public class Or implements config.behaviour.Condition {
+// Or
+public final class Or implements config.behaviour.condition.Condition {
     @Override
     public config.behaviour.Conditionenum type() {
         return config.behaviour.Conditionenum.OR;
     }
 
-    private config.behaviour.Condition cond1;
-    private config.behaviour.Condition cond2;
+    private config.behaviour.condition.Condition cond1;
+    private config.behaviour.condition.Condition cond2;
 
     private Or() {
     }
 
-    public Or(config.behaviour.Condition cond1, config.behaviour.Condition cond2) {
+    public Or(config.behaviour.condition.Condition cond1, config.behaviour.condition.Condition cond2) {
         this.cond1 = cond1;
         this.cond2 = cond2;
     }
 
     public static Or _create(configgen.genjava.ConfigInput input) {
         Or self = new Or();
-        self.cond1 = config.behaviour.Condition._create(input);
-        self.cond2 = config.behaviour.Condition._create(input);
+        self.cond1 = config.behaviour.condition.Condition._create(input);
+        self.cond2 = config.behaviour.condition.Condition._create(input);
         return self;
     }
 
-    public config.behaviour.Condition getCond1() {
+    public config.behaviour.condition.Condition getCond1() {
         return cond1;
     }
 
-    public config.behaviour.Condition getCond2() {
+    public config.behaviour.condition.Condition getCond2() {
         return cond2;
     }
 
