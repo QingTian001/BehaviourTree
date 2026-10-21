@@ -52,3 +52,15 @@ tasks.register('verifyJarExample', JavaExec) {
     classpath = files(tasks.named('jar').flatMap { it.archiveFile }) + sourceSets.test.output + configurations.testRuntimeClasspath
     mainClass = 'BehaviourExample'
 }
+
+tasks.register('runSceneExample', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'SceneManagersExample'
+}
+
+tasks.register('verifyJarSceneExample', JavaExec) {
+    dependsOn jar, testClasses
+    classpath = files(tasks.named('jar').flatMap { it.archiveFile }) + sourceSets.test.output + configurations.testRuntimeClasspath
+    mainClass = 'SceneManagersExample'
+}

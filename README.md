@@ -66,3 +66,9 @@ findOwner 使用 **主人实体实例 ID**，不使用 AIC 的角色 ID。主人
 旧 1—7 号 JSON 示例已迁移，保留用途；5 号需要黑板初值 `abc=0`，6 号需要 `n=0`，7 号通过参数传入 n，返回黑板 `ret`（例如 n=6 返回 13）。8、9 号为新增宿主示例。数值黑板不再统一转换为 double，long 整数精度保持。
 
 旧 Java 扩展需要迁入 Atom / Executor / Task 分层；配置基接口由 `config.behaviour.Node/Condition/Exp*` 变为对应 `config.behaviour.node.Node`、`condition.Condition`、`expnumber.ExpNumber` 等子包。旧节点名迁为 Comp*、Dec*、Act*（例如 Sequence → CompSequence、WaitTimeMs → ActWaitTimeMs、NodeCondition → ActCondition），日志参数改为字符串表达式。工程内示例已更新，外部旧 JSON 或 Java 调用不会自动兼容。
+
+## 场景状态、召唤与触发器
+
+已迁入 `state`、`summon`、`trigger` 关键代码，保留原注释。格子 AOI 通过 `aoi.GridMapAoiManager`、`aoi.Grid` 接口连接宿主；触发器保留 Common/Grid 算法与跨格事件处理。实现 `StateHost`、`SummonHost`、`TriggerHost` 即可接入，详见 [场景管理器接入说明](docs/scene-managers.md)。
+
+运行 `gradlew.bat runSceneExample` 验证状态中断、召唤/findOwner、区域触发、主人离场计时及监听清理；`verifyJarSceneExample` 验证打包后运行。

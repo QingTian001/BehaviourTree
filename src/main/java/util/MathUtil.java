@@ -2,6 +2,12 @@ package util;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 public final class MathUtil {
+    public static float randomFloat() { return ThreadLocalRandom.current().nextFloat(); }
+    public static float randomFloat(float max) { return randomFloat() * max; }
+    public static float randFloatBetween(float min, float max) { return min + randomFloat() * (max - min); }
+    public static int randomInt(int bound) { return ThreadLocalRandom.current().nextInt(bound); }
+    // 与z轴的顺时针夹角
+    public static float getAngle(math.Vector3 from, math.Vector3 to) { return (float) to.Sub2(from).toXZAngle(); }
     private MathUtil() { }
     public static int randBetween(int min, int max) {
         return (int) ThreadLocalRandom.current().nextLong(Math.min(min, max), (long) Math.max(min, max) + 1);
