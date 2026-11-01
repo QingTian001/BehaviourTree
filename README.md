@@ -59,7 +59,7 @@ entity.triggerEvent(new event.object.EventObjectLeaveMap(entity));
 - 控制流：顺序、选择、并行、整数分支、三种权重选择、RepeatUtil、SubTree；成功/失败/取反/日志/循环/定时装饰器和 DecCondition。
 - 底层 Act：等待、状态与条件、日志、黑板写入；移动/带朝向移动/停止/改朝向/面向实体；交互进入/退出；ActFindNonePlayerEntity、ActFindSummonOwner。
 - Condition / Expression：逻辑、比较、实体销毁及交互状态；保留常量、随机、算术、字符串转换、黑板读写、Self、按 ID 查实体、位置/监听位置、距离和当前逻辑时间。
-- 不包含 AIC、公寓、LLM、Buff、矿物、家具占位、店铺接待和服务器任务业务；IsEntityMoved 脉冲条件未迁入，可使用监听位置和距离比较表达空间约束。
+- IsEntityMoved 脉冲条件未迁入，可使用监听位置和距离比较表达空间约束。
 
 findOwner 使用 **主人实体实例 ID**，不使用 AIC 的角色 ID。主人缺失、销毁或 `distance² >= radius²` 时失败并清空旧输出；找对象节点采用 `distance² <= radius²`，保留 2000ms 查询冷却。
 
