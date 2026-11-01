@@ -1,6 +1,6 @@
 # BehaviourTree
 
-独立 Java 行为树。运行模型同步自 serverdev1 当前框架：共享的 Atom / Executor 保存配置与逻辑，每个实体使用独立的 Task / Runtime、黑板、执行栈和监听资源。
+独立 Java 行为树。共享的 Atom / Executor 保存配置与逻辑，每个实体使用独立的 Task / Runtime、黑板、执行栈和监听资源。
 
 需要 **JDK 25**。使用工程自带的 Gradle 9.5.1 Wrapper；配置生成器和配套加载代码也已同步升级，支持普通 JSON 浮点参数。运行命令前进入工程根目录，并确保 JAVA_HOME 或 PATH 指向 JDK 25。
 
